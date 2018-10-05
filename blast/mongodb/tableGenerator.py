@@ -89,7 +89,7 @@ def tableGeneration(filepath,fts):
 	
 def main():
 	parser = argparse.ArgumentParser()
-	parser.add_argument('-l', default='uniprot.txt',help="local filepath")
+	parser.add_argument('-l', default='uniprotData/uniprot.txt',help="local filepath")
 	args = parser.parse_args()
 	filepath = args.l
 	

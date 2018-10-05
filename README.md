@@ -11,7 +11,7 @@ Install MongoDB and Blast:
 5.sudo apt install blast2
 
 Run:
-1.(first time)go to mongodb folder run: python getuniprottxt.py && python uniprotCreateDB.py -update 1 && python tablegenerator.py
+1.(first time)go to mongodb folder run: python getuniprottxt.py && python uniprotCreateDB.py && python tableGenerator.py
 2.go to blast folder(when user query): 
     1)python DBtoF.py -out background_seqs(get fasta db from mongodb)
     2)formatdb -i background_seqs.fasta -p T

@@ -35,7 +35,7 @@ def main():
 		
 		if args.update > 0:
 			#train arg set to 1, so for output updated id list
-			functions.setAutoUpdate(dbname, colname, 0, args.update)
+			functions.setAutoUpdate(args.update)
 			print("Check for update every %s months!" % (args.update))
 	else:
 		print("File does not exist\n")
