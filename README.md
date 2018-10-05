@@ -13,7 +13,7 @@ Install MongoDB and Blast:
 Run:  
 1.(first time)go to mongodb folder run: python getuniprottxt.py && python uniprotCreateDB.py && python tableGenerator.py  
 2.go to blast folder(when user query):  
-    *1)python DBtoF.py -out background_seqs(get fasta db from mongodb)  
+&nbsp;&nbsp;&nbsp;&nbsp;1)python DBtoF.py -out background_seqs(get fasta db from mongodb)  
     2)formatdb -i background_seqs.fasta -p T  
     3)blastall -p blastp -i query_seqs.fasta -d background_seqs.fasta -e 1e-5 -v 100000 -b 100000 -m 0 -o out.txt  
     4)blastall -p blastp -i query_seqs.fasta -d background_seqs.fasta -e 1e-5 -v 100000 -b 100000 -m 8 -o format8.txt  
