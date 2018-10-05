@@ -25,12 +25,10 @@ def	db_to_fasta(output_prefix):
 	out_data = ''
 	out_file = open(output_prefix+'.fasta','w')
 	entrys = entry.find({})
-	print('1')
 	print(entrys)
 	for doc in entrys:			
 		out_data = prepareData(doc['_id'],doc['sequence'])
 		out_file.write(out_data)
-		print('2')
 
 	out_file.close()
 		

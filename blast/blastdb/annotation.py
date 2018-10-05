@@ -13,20 +13,16 @@ import itertools
 import functions
 	
 #insert # after ptm position in seq, format: fasta
-def duolin(id,ft,seq):
-	seq_list = list(seq)
+def duolin(id,ft):
+	out_data = id+'\t'
 	for i in ft:
-		seq_list.insert(int(i),'#')
-	
-	sequence = ''.join(seq_list)
-	out_data = '>'+id+'\n'+sequence
+		out_data += i+' '
 	return out_data
 
 
 
 def	MongotoPTMannotation(proteinIDs,Tag_FTs,output_prefix):
-	table = functions.connectMongoDB('test','table')
-	entry = functions.connectMongoDB('uniprot','entry')
+	table = functions.connectMongoDB('uniprot','table')
 	file = []
 	out_data = ''
 	
@@ -40,19 +36,12 @@ def	MongotoPTMannotation(proteinIDs,Tag_FTs,output_prefix):
 	for id in proteinIDs:
 		ptm = table.find_one({'_id': id})
 		ft_index = []
-		print(ptm)
 		for index, ft in enumerate(Tag_FTs):
-			# ft = re.sub('[.]', '',ft) #take off .
-			unfold_ft = ft.split(" ")
-			
-			for new_ft in unfold_ft:
-				if new_ft in ptm:
-					ft_index.extend(ptm[new_ft]) 
+			if ft in ptm:
+				ft_index.extend(ptm[ft]) 
 					
 			if len(ft_index) >= 1:
-				sequence = ptm['sequence']
-				out_data = duolin(ptm['_id'],ft_index,sequence)
-			
+				out_data = duolin(ptm['_id'],ft_index)
 				file[index].write(out_data)
 					
 	for index, tag in enumerate(Tag_FTs):
@@ -62,15 +51,14 @@ def	MongotoPTMannotation(proteinIDs,Tag_FTs,output_prefix):
 #example annotaion.py -l 'uniprot '
 def main():
 	parser = argparse.ArgumentParser()
-	parser.add_argument('-fts', nargs='+', help="feature keys", required=True)
+	#parser.add_argument('-fts', nargs='+', help="feature keys", required=True)
 	parser.add_argument('-ids', nargs='+', help="id list", required=True)
 	parser.add_argument('-out', help="output folder name", required=True)
 	args = parser.parse_args()
-	# fts = ['Phosphoserine','N6-methyllysine','Phosphothreonine','Phosphotyrosine',
-	# 'N6-acetyllysine','Omega-N-methylarginine','N6,N6-dimethyllysine','N6,N6,N6-trimethyllysine','N-linked(GlcNAc)asparagine',
-	# 'S-palmitoylcysteine','Pyrrolidonecarboxylicacid','Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)']
+	fts = ['Phosphoserine','N6-methyllysine','Phosphothreonine','Phosphotyrosine',
+	'N6-acetyllysine','Omega-N-methylarginine','N6,N6-dimethyllysine','N6,N6,N6-trimethyllysine','N-linked(GlcNAc)asparagine',
+	'S-palmitoylcysteine','Pyrrolidonecarboxylicacid','Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)']
 	ids = args.ids
-	fts = args.fts
 	
 	# print(fts)
 	
