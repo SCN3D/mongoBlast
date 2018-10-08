@@ -3,8 +3,6 @@
 #vm: amazon linux 2 AMI
 #python 2.7.5
 #mongodb 3.6.3
-import pymongo
-from pymongo import MongoClient
 import sys
 import os.path
 import argparse
@@ -37,11 +35,11 @@ def	ptmPosition(Tag_FTs):
 	table = functions.connectMongoDB('uniprot','table')
 	out_data = ''
 	file = []
-	if not os.path.exists("display_input"):
-		os.makedirs("display_input")
+	if not os.path.exists("data"):
+		os.makedirs("data")
 	
 	for index, tag in enumerate(Tag_FTs):
-		file.append(open('display_input/'+tag+'.fasta','w'))
+		file.append(open('data/'+tag+'.txt','w'))
 
 	with open("format8.txt") as fp:
 		for line in fp:
@@ -67,16 +65,16 @@ def	ptmPosition(Tag_FTs):
 def main():
 	parser = argparse.ArgumentParser()
 	#parser.add_argument('-fts', nargs='+', help="feature keys", required=True)
-	parser.add_argument('-ptms', nargs='+', help="ptm list", required=True)
+	parser.add_argument('-ptm', nargs='+', help="ptm list", required=True)
 	args = parser.parse_args()
 	#fts = ['Phosphoserine','N6-methyllysine','Phosphothreonine','Phosphotyrosine',
 	#'N6-acetyllysine','Omega-N-methylarginine','N6,N6-dimethyllysine','N6,N6,N6-trimethyllysine','N-linked(GlcNAc)asparagine',
 	#'S-palmitoylcysteine','Pyrrolidonecarboxylicacid','Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)']
 	
 	# print(fts)
-	ptms = args.ptms
+	ptm = args.ptm
 	
-	ptmPosition(ptms)
+	ptmPosition(ptm)
   
 if __name__== "__main__":
 	main()

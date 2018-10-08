@@ -25,7 +25,7 @@ def	db_to_fasta(output_prefix):
 	out_data = ''
 	out_file = open(output_prefix+'.fasta','w')
 	entrys = entry.find({})
-	print(entrys)
+
 	for doc in entrys:			
 		out_data = prepareData(doc['_id'],doc['sequence'])
 		out_file.write(out_data)
@@ -37,7 +37,7 @@ def	db_to_fasta(output_prefix):
 #output file: background_seqs.fasta
 def main():
 	parser = argparse.ArgumentParser()
-	parser.add_argument('-out', help="output file name", required=True)
+	parser.add_argument('-out',default="background_seqs", help="output file name")
 	args = parser.parse_args()
 	
 	file_name = args.out

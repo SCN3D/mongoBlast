@@ -10,14 +10,19 @@ Install MongoDB and Blast:
 4.sudo chmod 777 /data/db  
 5.sudo apt install blast2  
 
+Crontab:
+1.pip uninstall crontab  
+2.pip install python-crontab  
+
 Run:  
-1.(first time)go to mongodb folder run: python getuniprottxt.py && python uniprotCreateDB.py && python tableGenerator.py  
-2.go to blast folder(when user query):  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1)python DBtoF.py -out background_seqs(get fasta db from mongodb)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2)formatdb -i background_seqs.fasta -p T  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3)blastall -p blastp -i query_seqs.fasta -d background_seqs.fasta -e 1e-5 -v 100000 -b 100000 -m 0 -o out.txt  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4)blastall -p blastp -i query_seqs.fasta -d background_seqs.fasta -e 1e-5 -v 100000 -b 100000 -m 8 -o format8.txt  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5)python ptmPosition.py -ptms Phosphoserine (get ptm positions relative to query)----file require:format8.txt  
+1.(First time setup)Run: python getuniprottxt.py && uniprotCreateDB.py -update 1 && python DBtoF.py && python tableGenerator.py  
+2.When user query:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1)formatdb -i background_seqs.fasta -p T  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2)blastall -p blastp -i query_seqs.fasta -d background_seqs.fasta -e 1e-5 -v 100000 -b 100000 -m 8 -o format8.txt  
+3.Functions:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3)Generate display(data/input1.txt): python blastoutput.py  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4)Generate ptm position(data/input2.txt): python ptmPosition.py -ptm Phosphoserine  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5)Generate annotations(data/*.fasta): python ptmAnnotation.py -ptms Phosphoserine....   
 
 
 

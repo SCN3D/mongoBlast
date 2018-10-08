@@ -7,6 +7,7 @@ import argparse
 import sys
 import configparser
 from datetime import datetime as dt
+import os
 
 # read rss feed from uniprot, update database if there is a new update, 
 # example: rssreader.py -db 'uniprot' -col 'entry' -f 'go interpro' -train 1
@@ -38,6 +39,9 @@ def main():
 			functions.Config_edit(new_date)
 		else:
 			print("error")
+		dir_path = os.path.dirname(os.path.realpath(__file__))
+		os.system('python '+dir_path+'/DBtoF.py')
+		os.system('python '+dir_path+'/tableGenerator.py')
 	else:
 		print("No new update!")
 if __name__== "__main__":

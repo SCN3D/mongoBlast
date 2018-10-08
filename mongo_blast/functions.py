@@ -129,7 +129,7 @@ def updateMongoDB(filepath,dbname,colname,date):
 #a crontab job scheduler		
 def setAutoUpdate(update):
 	dir_path = os.path.dirname(os.path.realpath(__file__))
-	my_cron = CronTab(user='ubuntu')
+	my_cron = CronTab('ubuntu')
 	cmd = "/usr/bin/python "+dir_path+"/rssReader.py"
 	job = my_cron.new(command=cmd)
 	job.every(update).months()
