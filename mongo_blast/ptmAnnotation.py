@@ -59,7 +59,7 @@ def	MongotoPTMannotation(proteinIDs,Tag_FTs,output_prefix):
 	for index, tag in enumerate(Tag_FTs):
 		file[index].close()
 		
-def get_ids():
+def get_q_ids():
 	ids = []
 	with open("format8.txt") as fp:
 		for line in fp:
@@ -67,6 +67,7 @@ def get_ids():
 			parse = collapse.split(" ")
 			ids.append(parse[1])
 	return ids
+
 	
 #requirement: 1. uniprotCreateDB.py   2. tableGeneration.py 
 #example annotaion.py -l 'uniprot '
