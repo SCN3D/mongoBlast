@@ -25,6 +25,7 @@ Run:
 1.(First time setup)Run: python uniprotCreateDB.py -update 1 && python DBtoF.py && python tableGenerator.py
 
 2.When user query:
+      
       1)formatdb -i background_seqs.fasta -p T
       
       2)blastall -p blastp -i query_seqs.fasta -d background_seqs.fasta -e 1e-5 -v 100000 -b 100000 -m 8 -o format8.txt
