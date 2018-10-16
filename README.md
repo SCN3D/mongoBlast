@@ -22,6 +22,8 @@ Crontab:
 2.pip install python-crontab
 
 Run:
+mongod
+
 1.(First time setup)Run: python uniprotCreateDB.py -update 1 && python DBtoF.py && python tableGenerator.py
 
 2.When user query:
