@@ -11,6 +11,7 @@ sudo apt-get update
 sudo apt-get install mongodb-org
 refer to
 https://stackoverflow.com/questions/28945921/e-unable-to-locate-package-mongodb-org
+
 2.cd /  
 3.sudo mkdir -p data/db  
 4.sudo chmod 777 /data/db  
