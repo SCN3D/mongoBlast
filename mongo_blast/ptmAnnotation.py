@@ -79,7 +79,7 @@ def main():
 	# fts = ['Phosphoserine','N6-methyllysine','Phosphothreonine','Phosphotyrosine',
 	# 'N6-acetyllysine','Omega-N-methylarginine','N6,N6-dimethyllysine','N6,N6,N6-trimethyllysine','N-linked(GlcNAc)asparagine',
 	# 'S-palmitoylcysteine','Pyrrolidonecarboxylicacid','Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)']
-	ids = get_ids()
+	ids = get_q_ids()
 	ptms = args.ptms
 	
 	# print(fts)
