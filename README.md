@@ -22,17 +22,17 @@ Crontab:
 2.pip install python-crontab
 
 Run:
-mongod
+1 mongod
 
-1.(First time setup)Run: python uniprotCreateDB.py -update 1 && python DBtoF.py && python tableGenerator.py
+2 (First time setup)Run: python uniprotCreateDB.py -update 1 && python DBtoF.py && python tableGenerator.py
 
-2.When user query:
+3 When user query:
       
       1)formatdb -i background_seqs.fasta -p T
       
       2)blastall -p blastp -i query_seqs.fasta -d background_seqs.fasta -e 1e-5 -v 100000 -b 100000 -m 8 -o format8.txt
 
-3.Functions:
+4 Functions:
       
       3)Generate display(data/blast_output.txt): python blastoutput.py
       
