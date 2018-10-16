@@ -33,7 +33,7 @@ def	blast_output(output_prefix):
     table = functions.connectMongoDB('uniprot','table')
     if not os.path.exists(output_prefix):
 	    os.makedirs(output_prefix)
-    out_file = open(output_prefix+'/input1.txt','w')
+    out_file = open(output_prefix+'/blast_output.txt','w')
     current = " "
     with open("format8.txt") as fp:
         for line in fp:
