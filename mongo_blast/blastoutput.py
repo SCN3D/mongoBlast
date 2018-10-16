@@ -1,3 +1,7 @@
+# OS: Ubuntu, 18.04.1 LTS
+# Python: Python 2.7.15
+# Mongodb: v3.2.21 
+# Siteng Cai
 import sys
 import os.path
 import argparse

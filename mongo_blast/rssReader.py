@@ -1,7 +1,7 @@
-﻿#!/usr/bin/python
-#vm: amazon linux 2 AMI
-#python 2.7.5
-#mongodb 3.6.3
+﻿# OS: Ubuntu, 18.04.1 LTS
+# Python: Python 2.7.15
+# Mongodb: v3.2.21 
+# Siteng Cai
 import functions
 import argparse
 import sys
@@ -9,8 +9,7 @@ import configparser
 from datetime import datetime as dt
 import os
 
-# read rss feed from uniprot, update database if there is a new update, 
-# example: rssreader.py -db 'uniprot' -col 'entry' -f 'go interpro' -train 1
+# read rss feed from uniprot, update database if there is a new update
 
 def main():
 	parser = argparse.ArgumentParser()
@@ -30,7 +29,6 @@ def main():
 	new_date = functions.rssread()
 	
 	if new_date > old_date:
-		functions.getUniprot()
 		if train == 0:
 			functions.updateMongoDB('uniprotData/uniprot.txt',dbname,colname,"1/1/1111")
 			functions.Config_edit(new_date)

@@ -43,7 +43,7 @@ def valid_date(s):
         raise argparse.ArgumentTypeError(msg)
 
 def connectMongoDB(dbname,colname):
-	#connect to mongodb
+	# connect to mongodb
 	client = MongoClient('localhost', 27017)
 	# Get the database
 	db = client[dbname]
@@ -90,8 +90,6 @@ def updateMongoDB(filepath,dbname,colname,date):
 				temp_date = dt.strptime(re.sub('[,]', '',parsed_1[1]), "%d-%b-%Y")
 				if temp_date > out_date:
 					out_date = temp_date
-			##
-			## parse_1[0] is usually RT,DR,FT,or SQ etc... only squence part has length greater than 2
 			elif (len(parsed_1[0]) > 2 or seq_flag == 1) and parsed_1[0] != '//':
 				seq_flag = 1
 				sequence += collapsed
@@ -104,8 +102,7 @@ def updateMongoDB(filepath,dbname,colname,date):
 				
 				if train == 1 and old_date <= out_date:
 					train_ids.append(out_id)
-					
-				##rewind
+				# rewind
 				seq_flag = 0
 				id_flag = 0
 				ac_flag = 0
@@ -126,7 +123,7 @@ def updateMongoDB(filepath,dbname,colname,date):
 		info_file.close()
 		##TODO: after generate update info, do something
 
-#a crontab job scheduler		
+# crontab job scheduler		
 def setAutoUpdate(update):
 	dir_path = os.path.dirname(os.path.realpath(__file__))
 	my_cron = CronTab('ubuntu')
@@ -143,7 +140,7 @@ def Config_edit(date):
 	with open('config.ini', 'w') as configfile:
 		config.write(configfile)
 
-#remove duplicate numbers from list
+# remove duplicate numbers from list
 def remove_duplicates(values):
     output = []
     seen = set()
@@ -155,7 +152,7 @@ def remove_duplicates(values):
             seen.add(value)
     return output
 	
-#merge two python dict two one dict
+# merge two python dict two one dict
 def merge_two_dicts(x, y):
     z = x.copy()   # start with x's keys and values
     z.update(y)    # modifies z with y's keys and values & returns None

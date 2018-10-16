@@ -1,10 +1,7 @@
-#id_ft table
-#!/usr/bin/python
-#vm: amazon linux 2 AMI
-#python 2.7.5
-#mongodb 3.6.3
-import pymongo
-from pymongo import MongoClient
+# OS: Ubuntu, 18.04.1 LTS
+# Python: Python 2.7.15
+# Mongodb: v3.2.21 
+# Siteng Cai
 import sys
 import os.path
 import argparse
@@ -18,7 +15,7 @@ import functions
 	
 def tableGeneration(filepath,fts):
 	table = functions.connectMongoDB('uniprot','table')
-	# Open a file
+
 	id_flag = 0
 	ac_flag = 0
 	out_ac = []
@@ -41,7 +38,6 @@ def tableGeneration(filepath,fts):
 					for x in range(1, len(data)-1):
 						out_ac.append(data[x])
 				out_data = {'_id' : out_id,'ac':out_ac}
-			##[go,interpro,pfam,prosite,smart,supfam]
 			elif parsed_1[0] == "FT":
 				if len(parsed_1) > 4 and special == 0:
 					ft = ''
@@ -63,8 +59,6 @@ def tableGeneration(filepath,fts):
 						fts.setdefault(ft, []).append(out_position)
 						out_position = []
 					special = 0
-			##
-			## parse_1[0] is usually RT,DR,FT,or SQ etc... only squence part has length greater than 2
 			elif len(parsed_1[0]) > 2:
 				sequence += collapsed
 			elif parsed_1[0] == '//':
@@ -72,7 +66,6 @@ def tableGeneration(filepath,fts):
 				out_data = functions.merge_two_dicts(out_data,fts)
 				sequence = ''.join(sequence.split())
 				out_data['sequence'] = sequence
-				#print(out_data)
 				table.save(out_data)
 				fts = {'Phosphoserine':[],'Phosphothreonine':[],'Phosphotyrosine':[],'N6-acetyllysine':[],'Omega-N-methylarginine':[],
 				'N6-methyllysine':[],'N6,N6-dimethyllysine':[],'N6,N6,N6-trimethyllysine':[],'N-linked(GlcNAc)asparagine':[],
@@ -92,8 +85,6 @@ def main():
 	parser.add_argument('-l', default='uniprotData/uniprot.txt',help="local filepath")
 	args = parser.parse_args()
 	filepath = args.l
-	
-	
 	
 	fts = {'Phosphoserine':[],'Phosphothreonine':[],'Phosphotyrosine':[],'N6-acetyllysine':[],'Omega-N-methylarginine':[],
 	'N6-methyllysine':[],'N6,N6-dimethyllysine':[],'N6,N6,N6-trimethyllysine':[],'N-linked(GlcNAc)asparagine':[],

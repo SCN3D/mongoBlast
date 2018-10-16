@@ -1,13 +1,10 @@
-#
-#!/usr/bin/python
-#vm: amazon linux 2 AMI
-#python 2.7.5
-#mongodb 3.6.3
+# OS: Ubuntu, 18.04.1 LTS
+# Python: Python 2.7.15
+# Mongodb: v3.2.21 
+# Siteng Cai
 import sys
 import os.path
 import argparse
-import re
-import itertools
 import functions
 	
 #insert # after ptm position in seq, format: fasta
@@ -22,12 +19,10 @@ def calc_psition(q_start,s_start,s_end,ptm_positions):
 		return 0
 	relative_positions = []
 	for position in ptm_positions:
-		#print("pos:"+position)
 		position = int(position)
 		if position >= s_start and position <= s_end:
 			seq_rel_pos = position - s_start
 			q_rel_pos = q_start + seq_rel_pos
-			#print("rel:"+str(q_rel_pos))
 			relative_positions.append(q_rel_pos)
 	return relative_positions
 
@@ -60,18 +55,14 @@ def	ptmPosition(Tag_FTs):
 	for index, tag in enumerate(Tag_FTs):
 		file[index].close()
 		
-#requirement: 1. uniprotCreateDB.py   2. tableGenerator.py 
-#example annotaion.py -l 'uniprot '
 def main():
 	parser = argparse.ArgumentParser()
-	#parser.add_argument('-fts', nargs='+', help="feature keys", required=True)
 	parser.add_argument('-ptm', nargs='+', help="ptm list", required=True)
 	args = parser.parse_args()
-	#fts = ['Phosphoserine','N6-methyllysine','Phosphothreonine','Phosphotyrosine',
-	#'N6-acetyllysine','Omega-N-methylarginine','N6,N6-dimethyllysine','N6,N6,N6-trimethyllysine','N-linked(GlcNAc)asparagine',
-	#'S-palmitoylcysteine','Pyrrolidonecarboxylicacid','Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)']
-	
-	# print(fts)
+	# ptms = ['Phosphoserine','N6-methyllysine','Phosphothreonine','Phosphotyrosine',
+	# 'N6-acetyllysine','Omega-N-methylarginine','N6,N6-dimethyllysine','N6,N6,N6-trimethyllysine','N-linked(GlcNAc)asparagine',
+	# 'S-palmitoylcysteine','Pyrrolidonecarboxylicacid','Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)']
+
 	ptm = args.ptm
 	
 	ptmPosition(ptm)
