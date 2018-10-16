@@ -1,10 +1,16 @@
 # mongoBlast
-OS: Centos
+OS: Ubuntu 14.04
 Python: Python 2.7.15rc1
 Mongodb: v3.2.21 
 
 Install MongoDB and Blast:  
-1.sudo yum install mongodb-org
+1. install mongoDB：
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
+sudo apt-get update
+sudo apt-get install mongodb-org
+refer to
+https://stackoverflow.com/questions/28945921/e-unable-to-locate-package-mongodb-org
 2.cd /  
 3.sudo mkdir -p data/db  
 4.sudo chmod 777 /data/db  
