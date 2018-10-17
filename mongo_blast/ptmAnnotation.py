@@ -14,7 +14,7 @@ def prepare(id,ft,seq):
 		seq_list.insert(int(i),'#')
 	
 	sequence = ''.join(seq_list)
-	out_data = '> '+id+'\n'+sequence+'\n'
+	out_data = '>sp|'+id+'\n'+sequence+'\n'
 	return out_data
 
 
@@ -45,7 +45,7 @@ def	MongotoPTMannotation(proteinIDs,Tag_FTs,output_prefix):
 			if len(ft_index) >= 1:
 				sequence = ptm['sequence']
 				
-				out_data = prepare(ptm['_id'],ft_index,sequence)
+				out_data = prepare(ptm['ac'][0]+"|"+ptm['_id'],ft_index,sequence)
 				
 				file[index].write(out_data)
 					
