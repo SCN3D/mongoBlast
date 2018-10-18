@@ -8,12 +8,14 @@ import argparse
 import functions
 import ptmAnnotation
 		
-def get_ids():
+def get_ids(sp):
     ids = []
     table = functions.connectMongoDB('uniprot','table')
     cursor = table.find()
     for doc in cursor:
-        ids.append(doc['_id'])
+        if doc['species'] and sp in doc['species']:
+            #print(doc['_id'])
+            ids.append(doc['_id'])
     return ids
 
 def main():
@@ -25,7 +27,7 @@ def main():
     #'S-palmitoylcysteine','Pyrrolidonecarboxylicacid','Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)']
     ptms = ['Phosphoserine_Phosphothreonine','Phosphotyrosine','N-linked(GlcNAc)asparagine','N6-acetyllysine','N6-methyllysine_N6,N6-dimethyllysine_N6,N6,N6-trimethyllysine','Omega-N-methylarginine',
     'S-palmitoylcysteine','Pyrrolidonecarboxylicacid','Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)']
-    ids = get_ids()
+    ids = get_ids("Metazoa")
     #ptms = args.ptms
     
     folder_path = args.out

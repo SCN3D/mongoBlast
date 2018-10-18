@@ -35,12 +35,13 @@ def tableGeneration(filepath,fts):
 				if len(data)  > 2:
 					for x in range(1, len(data)-1):
 						out_ac.append(data[x])
-				out_data = {'_id' : out_id,'ac':out_ac}
+				#out_data = {'_id' : out_id,'ac':out_ac}
 			elif parsed_1[0] == "OC":
-				check.append(parsed_1[1])
+				check.append(parsed_1[1].lstrip())
 				if len(data)  > 2:
 					for x in range(1, len(data)-1):
-						check.append(data[x])
+						check.append(data[x].lstrip())
+				out_data = {'_id' : out_id,'ac':out_ac,'species':check}
 			elif parsed_1[0] == "FT":
 				if len(parsed_1) > 4 and special == 0:
 					ft = ''
@@ -69,9 +70,8 @@ def tableGeneration(filepath,fts):
 				out_data = functions.merge_two_dicts(out_data,fts)
 				sequence = ''.join(sequence.split())
 				out_data['sequence'] = sequence
-				if " Metazoa" in check:
-					#print(check)
-					table.save(out_data)
+				
+				table.save(out_data)
 				fts = {'Phosphoserine':[],'Phosphothreonine':[],'Phosphotyrosine':[],'N6-acetyllysine':[],'Omega-N-methylarginine':[],
 				'N6-methyllysine':[],'N6,N6-dimethyllysine':[],'N6,N6,N6-trimethyllysine':[],'N-linked(GlcNAc)asparagine':[],
 				'S-palmitoylcysteine': [],'Pyrrolidonecarboxylicacid':[],'Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)':[]
