@@ -11,14 +11,14 @@ import functions
 def prepare(id,ft,seq):
 	seq_list = list(seq)
 	for c,i in enumerate(ft):
-		seq_list.insert(int(i)+c-1,'#')
+		seq_list.insert(i+c-1,'#')
 	
 	sequence = ''.join(seq_list)
 	out_data = '>sp|'+id+'\n'+sequence+'\n'
 	return out_data
 
 
-def	MongotoPTMannotation(proteinIDs,Tag_FTs,output_prefix):
+def MongotoPTMannotation(proteinIDs,Tag_FTs,output_prefix):
 	table = functions.connectMongoDB('uniprot','table')
 
 	file = []
@@ -41,7 +41,8 @@ def	MongotoPTMannotation(proteinIDs,Tag_FTs,output_prefix):
 			for new_ft in unfold_ft:
 				if new_ft in ptm:
 					ft_index.extend(ptm[new_ft]) 
-					
+			ft_index = map(int,ft_index)
+			ft_index.sort()
 			if len(ft_index) >= 1:
 				sequence = ptm['sequence']
 				
