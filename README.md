@@ -15,7 +15,7 @@ Crontab:
 2.pip install python-crontab  
 
 Run:  
-1. mongod
+1.mongod  
 2.(First time setup)Run: python uniprotCreateDB.py -update 1 && python DBtoF.py && python tableGenerator.py  
 3.When user query:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1)formatdb -i background_seqs.fasta -p T  
@@ -23,7 +23,7 @@ Run:
 4.Functions:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3)Generate display(data/blast_output.txt): python blastoutput.py  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4)Generate ptm position(data/*.txt): python ptmPosition.py -ptm Phosphoserine  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5)Generate annotations(data/*.fasta): python annotations.py -ptms Phosphoserine....  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5)Generate annotations(data/*.fasta): python annotations.py  
 
 
 
