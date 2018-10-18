@@ -33,9 +33,10 @@ def MongotoPTMannotation(proteinIDs,Tag_FTs,output_prefix):
 	
 	for id in proteinIDs:
 		ptm = table.find_one({'_id': id})
-		ft_index = []
+		
 	
 		for index, ft in enumerate(Tag_FTs):
+			ft_index = []
 			unfold_ft = ft.split("_")
 			
 			for new_ft in unfold_ft:
