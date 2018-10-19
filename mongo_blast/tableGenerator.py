@@ -55,6 +55,10 @@ def tableGeneration(filepath,fts):
 					if ft in fts:
 						fts.setdefault(ft, []).append(out_position)
 						out_position = []
+					elif "Phosphothreonine" in ft:
+						fts.setdefault("Phosphothreonine", []).append(out_position)
+						out_position = []
+
 				elif special == 1:
 					for i in range(1,len(parsed_1)):
 						ft = ft + parsed_1[i]
