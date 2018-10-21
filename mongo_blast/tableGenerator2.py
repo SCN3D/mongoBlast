@@ -90,7 +90,7 @@ def tableGeneration(filepath,ptms):
 			out_data = functions.merge_two_dicts(out_data,ptms)
 			out_data['sequence'] = sequence
 			table.save(out_data)
-			print(out_data)
+			#print(out_data)
 				
 			##rewind
 			ptms = {'Phosphoserine':[],'Phosphothreonine':[],'Phosphotyrosine':[],'N6-acetyllysine':[],'Omega-N-methylarginine':[],
