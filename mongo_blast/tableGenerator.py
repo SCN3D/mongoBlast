@@ -13,7 +13,7 @@ def tableGeneration(filepath,fts):
 	table = functions.connectMongoDB('uniprot','table')
 
 	id_flag = 0
-	ac_flag = 0
+	#ac_flag = 0
 	out_ac = []
 	out_position = []
 	out_data = dict()
@@ -29,20 +29,20 @@ def tableGeneration(filepath,fts):
 			if parsed_1[0] == "ID" and id_flag == 0:
 				id_flag = 1
 				out_id = parsed_1[1]
-			elif parsed_1[0] == "AC" and ac_flag == 0:
-				ac_flag = 1
+			elif parsed_1[0] == "AC" and len(parsed_1) > 1:
+				#ac_flag = 1
 				out_ac.append(parsed_1[1])
 				if len(data)  > 2:
 					for x in range(1, len(data)-1):
-						out_ac.append(data[x])
+						out_ac.append(data[x].lstrip())
 				#out_data = {'_id' : out_id,'ac':out_ac}
-			elif parsed_1[0] == "OC":
+			elif parsed_1[0] == "OC" and len(parsed_1) > 1:
 				check.append(parsed_1[1].lstrip())
-				if len(data)  > 2:
+				if len(data) > 2:
 					for x in range(1, len(data)-1):
 						check.append(data[x].lstrip())
 				out_data = {'_id' : out_id,'ac':out_ac,'species':check}
-			elif parsed_1[0] == "FT":
+			elif parsed_1[0] == "FT" and len(parsed_1) > 1:
 				if len(parsed_1) > 4 and special == 0:
 					ft = ''
 					for i in range(4,len(parsed_1)):
@@ -58,7 +58,6 @@ def tableGeneration(filepath,fts):
 					elif "Phosphothreonine" in ft:
 						fts.setdefault("Phosphothreonine", []).append(out_position)
 						out_position = []
-
 				elif special == 1:
 					for i in range(1,len(parsed_1)):
 						ft = ft + parsed_1[i]
@@ -83,7 +82,7 @@ def tableGeneration(filepath,fts):
 				
 				##rewind
 				id_flag = 0
-				ac_flag = 0
+				#ac_flag = 0
 				out_data.clear()
 				out_ac = []
 				out_position = []
