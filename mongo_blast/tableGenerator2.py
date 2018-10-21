@@ -59,6 +59,7 @@ def tableGeneration(filepath,ptms):
 					check.append(data[x].lstrip())
 			out_data = {"_id" : out_id,"ac":out_ac,"species":check}
 		elif tag == "FT":
+			temp_ptm = ""
 			out_position = functions.remove_duplicates([info[2],info[3]])
 			for i in range(4,len(info)):
 				temp_ptm += info[i].rstrip()
