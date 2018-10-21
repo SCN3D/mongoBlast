@@ -28,6 +28,7 @@ def seq_read(fp):
 	
 def tableGeneration(filepath,ptms):
 	table = functions.connectMongoDB('uniprot','table')
+	table.drop()
 	out_id = ""
 	out_ac = []
 	out_position = []
@@ -69,7 +70,7 @@ def tableGeneration(filepath,ptms):
 			while info[0] == "FT":
 				if len(info) > 3 and is_number(info[2]) and is_number(info[3]):
 					for doc in ptms:
-						if doc in temp_ptm:
+						if doc == re.sub('[\.|\;].*','',temp_ptm):
 							ptms.setdefault(doc, []).append(out_position)
 					temp_ptm = ""
 					out_position = functions.remove_duplicates([info[2],info[3]])
@@ -82,7 +83,7 @@ def tableGeneration(filepath,ptms):
 				line = ' '.join(fp.readline().split())
 				info = line.split(" ")
 			for doc in ptms:
-				if doc in temp_ptm:
+				if doc == re.sub('[\.|\;].*','',temp_ptm):
 					ptms.setdefault(doc, []).append(out_position)
 			ptms = dict( [(k,list(itertools.chain.from_iterable(v))) for k,v in ptms.items() if len(v)>0])
 			fp.seek(prev_fp_pos)
