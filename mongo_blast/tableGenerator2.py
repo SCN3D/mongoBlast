@@ -69,6 +69,9 @@ def tableGeneration(filepath,ptms):
 			info = line.split(" ")
 			while info[0] == "FT":
 				if len(info) > 3 and is_number(info[2]) and is_number(info[3]):
+					#print("before: "+temp_ptm)
+					temp_ptm = re.sub('(\.*)\)',')',temp_ptm)
+					#print("after: "+temp_ptm)
 					for doc in ptms:
 						if doc == re.sub('[\.|\;].*','',temp_ptm):
 							ptms.setdefault(doc, []).append(out_position)
@@ -82,6 +85,9 @@ def tableGeneration(filepath,ptms):
 				prev_fp_pos = fp.tell()
 				line = ' '.join(fp.readline().split())
 				info = line.split(" ")
+			#print("before: "+temp_ptm)
+			temp_ptm = re.sub('(\.*)\)',')',temp_ptm)
+			#print("after: "+temp_ptm)
 			for doc in ptms:
 				if doc == re.sub('[\.|\;].*','',temp_ptm):
 					ptms.setdefault(doc, []).append(out_position)
@@ -104,6 +110,7 @@ def tableGeneration(filepath,ptms):
 			out_position = []
 			sequence = ""
 			check = []
+			#input("Press Enter to continue...")
 		line = fp.readline()
 	
 	fp.close()
