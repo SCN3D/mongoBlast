@@ -11,7 +11,7 @@ import functions
 def prepare(id,ft,seq):
 	seq_list = list(seq)
 	for c,i in enumerate(ft):
-		seq_list.insert(i+c-1,'#')
+		seq_list.insert(i+c,'#')
 	
 	sequence = ''.join(seq_list)
 	out_data = '>sp|'+id+'\n'+sequence+'\n'
