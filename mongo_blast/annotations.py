@@ -20,7 +20,7 @@ def get_ids(sp):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-out',default='data', help="output folder name")
+    parser.add_argument('-out',default='data_'+ "_".join(time.asctime().split(" ")), help="output folder name")
     args = parser.parse_args()
     #ptms = ['Phosphoserine','N6-methyllysine','Phosphothreonine','Phosphotyrosine',
     #'N6-acetyllysine','Omega-N-methylarginine','N6,N6-dimethyllysine','N6,N6,N6-trimethyllysine','N-linked(GlcNAc)asparagine',
