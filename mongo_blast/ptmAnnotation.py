@@ -43,7 +43,8 @@ def MongotoPTMannotation(proteinIDs,Tag_FTs,output_prefix):
 				if new_ft in ptm:
 					ft_index.extend(ptm[new_ft]) 
 			ft_index = map(int,ft_index)
-			ft_index.sort()
+			#ft_index.sort()
+			ft_index=list(sorted(set(ft_index)))
 			if len(ft_index) >= 1:
 				sequence = ptm['sequence']
 				
