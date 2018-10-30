@@ -207,12 +207,7 @@ def blast_output(filepath,ptms):
 				
 				collapsed = ' '.join(line.split())
 				data = collapsed.split(" ")	
-
-			#for i in ac_deletions:
-			#	for j in ac_deletions[i]:
-			#		print("ac: "+i+"\tpos: "+str(j.pos)+"\tseq: "+str(j.seq))
-			# preprocess data
-			converter = dict(zip(acs,ids))
+			
 			##########check ptms
 			#for id in ids:
 			#	temp = table.find_one({"_id": id})
@@ -221,6 +216,8 @@ def blast_output(filepath,ptms):
 			#			print(temp[ptm])
 			##################
 
+			# preprocess data
+			converter = dict(zip(acs,ids))
 			for ncbi in converter:
 				output[converter[ncbi]] = output.pop(ncbi)
 				output[converter[ncbi]] = output[converter[ncbi]].ljust(len(q_seq))
