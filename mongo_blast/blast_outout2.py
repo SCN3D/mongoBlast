@@ -118,9 +118,8 @@ def display_output(q_id,q_seq,output,ids,fp):
 	for id in ids:
 		fp.write('{:14}'.format(id) + output[id] +  "\n")
 
-def display_ptm(ptm,ptm_fp):
-	for id in ptm:
-		
+def display_ptm(ptm,ptm_fp,ids):
+	for id in ids:
 		out = prepare(id,ptm[id])
 		#if len(ptm[id]) > 0:
 		#	print(ptm_fp.name+": "+out)
@@ -241,7 +240,7 @@ def blast_output(filepath,ptms):
 			# ptm position is relative to the line in the file not sequence now
 			for counter, ptm in enumerate(ptms):
 				ab_ptms = get_ptms(ptm,table,ids,seqs_start_index,seqs_end_index,insertions,ac_deletions,output)
-				display_ptm(ab_ptms,file[counter])
+				display_ptm(ab_ptms,file[counter],ids)
 			
 			display_output(q_name,q_seq,output,ids,out_file)
 		line = fp.readline()
