@@ -8,8 +8,10 @@ import argparse
 import re
 import itertools
 import functions
-#def preprocess(converter,):
+
+# for debug
 log_file = open("ptm_log.txt","w")
+
 class deletion_data:
     def __init__(self, pos, seq):
         self.pos = pos
@@ -62,11 +64,15 @@ def get_ptms(ptm,table,ids,s_p,e_p,insertions,deletions,seqs):
 								else:
 									temp_ptm += len(k.seq)
 					if delete == False:
+						#log
 						log_file.write("id: "+id+"\tptm: "+ptm +"\tDB_position: "+str(i)+"\tseq_start: "+str(s_p[id])+"\tseq_end: "+str(e_p[id])+" ADDED!\n")
+						
 						ab_ptms[id].append(out_ptm)
 					else:
+						#log
 						log_file.write("id: "+id+"\tptm: "+ptm +"\tab_position: "+str(out_ptm)+" DELETED!\n")
 				else:
+					#log
 					log_file.write("id: "+id+"\tptm: "+ptm +"\tDB_index: "+str(i)+"\tseq_start: "+str(s_p[id])+"\tseq_end: "+str(e_p[id])+" OUT OF RANGE!\n")
 	return ab_ptms
 	
@@ -76,7 +82,6 @@ def get_deletions(fp,seq_start,seq_index):
 	line = fp.readline()
 	indexes = [(m.start() + seq_index - int(seq_start)) for m in re.finditer(r"\|+", line)]
 	#print(line)
-	#indexes = [m.sapn()  for m in re.finditer('\\+', line)]
 	line = fp.readline()
 	collapsed = ' '.join(line.split())
 	data = collapsed.split(" ")
@@ -156,8 +161,6 @@ def blast_output(filepath,ptms):
 
 			ids = get_ids(fp)
 		elif tag.lower() == q_name.lower():
-
-			# q_start = int(data[1])
 			temp_q_end = int(data[3])
 			q_seq = data[2]
 			seqs_start_position = line.find(data[2]) # start position in txt
@@ -224,7 +227,6 @@ def blast_output(filepath,ptms):
 				output[converter[ncbi]] = output[converter[ncbi]].replace(" ",".")
 				seqs_start_index[converter[ncbi]] = seqs_start_index.pop(ncbi)
 				seqs_end_index[converter[ncbi]] = seqs_end_index.pop(ncbi)
-				### working area
 				if ncbi in ac_deletions:
 					ac_deletions[converter[ncbi]] = ac_deletions.pop(ncbi)
 				
@@ -235,6 +237,8 @@ def blast_output(filepath,ptms):
 			#	for j in ac_deletions[i]:
 			#		print("id: "+i+"\tpos: "+str(j.pos)+"\tseq: "+j.seq)
 			#####################
+
+			# ptm position is relative to the line in the file not sequence now
 			for counter, ptm in enumerate(ptms):
 				ab_ptms = get_ptms(ptm,table,ids,seqs_start_index,seqs_end_index,insertions,ac_deletions,output)
 				display_ptm(ab_ptms,file[counter])
