@@ -21,38 +21,51 @@ def prepare(id,relative_positions):
 		out_data += ' '+str(i)
 	return out_data + '\n'
 
-def get_ptms(ptm,table,ids,s_p,e_p,insertions,deletions):
+def get_ptms(ptm,table,ids,s_p,e_p,insertions,deletions,seqs):
 	ab_ptms = dict()
 
 	for id in ids:
 		ab_ptms[id] = []
 		data = table.find_one({'_id': id})
-		pad = re.match(r"^\.+",data["sequence"])
+		pad = re.match(r"^\.+",seqs[id])
 
 		if pad == None:
 			pad = 0
 		else:
-			pad = len(pad)
+			pad = len(pad.group(0))
 
 		if ptm in data:
 			for i in data[ptm]:
-				if i in range(s_p[id],e_p[id]+1):
-					temp_ptm = i - s_p[id] + pad + 14
-					for j in insertions[id]:
-						if temp_ptm > j[0]:
-							temp_ptm = temp_ptm + j[1] - j[0]
-						else:
-							break
+				if int(i) >= s_p[id] and int(i) <= e_p[id]:
+					if id == "P73_MOUSE":
+						print("ptm before:"+str(i))
+						print("start: "+str(s_p[id]))
+						print("pad: "+str(pad))
+						log_file.write("id: "+id+"\tseq: "+data['sequence']+"\n")
+					out_ptm = int(i) - s_p[id] + pad + 15
+					if id == "P73_MOUSE":
+						print("ptm after:"+str(out_ptm))
+					temp_ptm = out_ptm
+					if id in insertions:
+						for j in insertions[id]:
+							if out_ptm > j[0]:
+								out_ptm = out_ptm + j[1] - j[0]
+							else:
+								break
 					delete = False
-					for k in deletions[id]:
-						if temp_ptm in range(k.pos,k.pos+len(k.seq)):
-							delete = True
-							break
+					if id in deletions:
+						for k in deletions[id]:
+							if temp_ptm > k.pos: 
+								if temp_ptm <= k.pos+len(k.seq):
+									delete = True
+									break
+								else:
+									temp_ptm += len(k.seq)
 					if delete == False:
-						print("SUCCESS: id: "+id+"ptm: "+ptm +"\tab_position: "+str(temp_ptm))
-						ab_ptms[id].append(temp_ptm)
+						log_file.write("id: "+id+"\tptm: "+ptm +"\tDB_position: "+str(i)+"\tseq_start: "+str(s_p[id])+"\tseq_end: "+str(e_p[id])+" ADDED!\n")
+						ab_ptms[id].append(out_ptm)
 					else:
-						log_file.write("id: "+id+"ptm: "+ptm +"\tab_position: "+str(temp_ptm)+" DELETED!\n")
+						log_file.write("id: "+id+"\tptm: "+ptm +"\tab_position: "+str(out_ptm)+" DELETED!\n")
 				else:
 					log_file.write("id: "+id+"\tptm: "+ptm +"\tDB_index: "+str(i)+"\tseq_start: "+str(s_p[id])+"\tseq_end: "+str(e_p[id])+" OUT OF RANGE!\n")
 	return ab_ptms
@@ -104,8 +117,8 @@ def display_ptm(ptm,ptm_fp):
 	for id in ptm:
 		
 		out = prepare(id,ptm[id])
-		if len(ptm[id]) > 0:
-			print(ptm_fp.name+": "+out)
+		#if len(ptm[id]) > 0:
+		#	print(ptm_fp.name+": "+out)
 		ptm_fp.write(out)
 	
 def blast_output(filepath,ptms):
@@ -220,10 +233,15 @@ def blast_output(filepath,ptms):
 				
 				insertions[converter[ncbi]] = get_inserts(output[converter[ncbi]])
 
+			#############check deletions
+			#for i in ac_deletions:
+			#	for j in ac_deletions[i]:
+			#		print("id: "+i+"\tpos: "+str(j.pos)+"\tseq: "+j.seq)
+			#####################
 			for counter, ptm in enumerate(ptms):
-				ab_ptms = get_ptms(ptm,table,ids,seqs_start_index,seqs_end_index,insertions,ac_deletions)
+				ab_ptms = get_ptms(ptm,table,ids,seqs_start_index,seqs_end_index,insertions,ac_deletions,output)
 				display_ptm(ab_ptms,file[counter])
-
+			
 			display_output(q_name,q_seq,output,ids,out_file)
 		line = fp.readline()
 	
