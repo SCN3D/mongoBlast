@@ -9,6 +9,7 @@ Install MongoDB and Blast:
 3.sudo mkdir -p data/db  
 4.sudo chmod 777 /data/db  
 5.sudo apt install blast2=2.6.0+  
+or download from https://launchpad.net/ubuntu/+source/ncbi-blast+/2.6.0-1
 
 Crontab:  
 1.pip uninstall crontab  
