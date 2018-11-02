@@ -24,7 +24,7 @@ Crontab:
 
 Run:  
 1.mongod  
-2.(First time setup)Run: python tableGenerator2.py -update 1 && python DBtoF.py && Generate annotations(data/*.fasta): python annotations.py  
+2.(First time setup)Run: python tableGenerator.py -update 1 && python DBtoF.py && Generate annotations(data/*.fasta): python annotations.py  
 3.When user query:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1)formatdb -i background_seqs.fasta -p T  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2)blastall -p blastp -i query_seqs.fasta -d background_seqs.fasta -e 1e-5 -v 100000 -b 100000 -m 2 -o format2.txt  
