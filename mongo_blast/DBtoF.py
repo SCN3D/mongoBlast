@@ -21,7 +21,7 @@ def prepareData(id,seq):
 
 #output_type 1: duolin 0:chunhui 
 def	db_to_fasta(output_prefix):
-	entry = functions.connectMongoDB('uniprot','entry')
+	entry = functions.connectMongoDB('uniprot','table')
 	out_data = ''
 	out_file = open(output_prefix+'.fasta','w')
 	entrys = entry.find({})
@@ -32,7 +32,7 @@ def	db_to_fasta(output_prefix):
 
 	out_file.close()
 		
-#requirement: 1. uniprotCreateDB.py 
+#requirement: 1. tableGenerator2.py 
 #example DBtoF.py -l 'background_seqs'
 #output file: background_seqs.fasta
 def main():

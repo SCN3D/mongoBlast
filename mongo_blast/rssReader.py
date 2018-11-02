@@ -16,11 +16,9 @@ def main():
 	parser.add_argument('-train', type=int, choices=[0,1],default=0, help="set to 1 for output updated id list,default 0")
 	
 	args = parser.parse_args()
-	
-	dbname = "uniprot"
-	colname = "entry"
 	train = args.train
-	
+
+	dir_path = os.path.dirname(os.path.realpath(__file__))
 			
 	config = configparser.ConfigParser()
 	config.read('config.ini')
@@ -30,16 +28,16 @@ def main():
 	
 	if new_date > old_date:
 		if train == 0:
-			functions.updateMongoDB('uniprotData/uniprot.txt',dbname,colname,"1/1/1111")
+			os.system('python '+dir_path+'/tableGenerator2.py')
+			os.system('python '+dir_path+'/DBtoF.py')
 			functions.Config_edit(new_date)
 		elif train == 1:
-			functions.updateMongoDB('uniprotData/uniprot.txt',dbname,colname,new_date)
+			print("optional?")
 			functions.Config_edit(new_date)
 		else:
 			print("error")
-		dir_path = os.path.dirname(os.path.realpath(__file__))
-		os.system('python '+dir_path+'/DBtoF.py')
-		os.system('python '+dir_path+'/tableGenerator.py')
+		
+		
 	else:
 		print("No new update!")
 if __name__== "__main__":

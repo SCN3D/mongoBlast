@@ -39,15 +39,11 @@ def get_ptms(ptm,table,ids,s_p,e_p,insertions,deletions,seqs):
 		if ptm in data:
 			for i in data[ptm]:
 				if int(i) >= s_p[id] and int(i) <= e_p[id]:
-					if id == "P73_MOUSE":
-						print("ptm before:"+str(i))
-						print("start: "+str(s_p[id]))
-						print("pad: "+str(pad))
-						log_file.write("id: "+id+"\tseq: "+data['sequence']+"\n")
+
 					out_ptm = int(i) - s_p[id] + pad + 15
-					if id == "P73_MOUSE":
-						print("ptm after:"+str(out_ptm))
+
 					temp_ptm = out_ptm
+					# first calc insertions
 					if id in insertions:
 						for j in insertions[id]:
 							if out_ptm > j[0]:
@@ -55,6 +51,7 @@ def get_ptms(ptm,table,ids,s_p,e_p,insertions,deletions,seqs):
 							else:
 								break
 					delete = False
+					# then deal with deletions
 					if id in deletions:
 						for k in deletions[id]:
 							if temp_ptm > k.pos: 
@@ -254,13 +251,13 @@ def blast_output(filepath,ptms):
 def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-l', default='format2.txt',help="local filepath")
-	#parser.add_argument('-ptms', nargs='*', default=['Phosphotyrosine'], help="ptms ptm1 ptm2")
+	parser.add_argument('-ptms', nargs='*', default=['Phosphotyrosine'], help="ptms ptm1 ptm2")
 	args = parser.parse_args()
 	filepath = args.l
-	#ptms = args.ptms
+	ptms = args.ptms
 
-	ptms = ['Phosphoserine_Phosphothreonine','Phosphotyrosine','N-linked(GlcNAc)asparagine','N6-acetyllysine','N6-methyllysine_N6,N6-dimethyllysine_N6,N6,N6-trimethyllysine','Omega-N-methylarginine',
-    'S-palmitoylcysteine','Pyrrolidonecarboxylicacid','Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)']
+	#ptms = ['Phosphoserine_Phosphothreonine','Phosphotyrosine','N-linked(GlcNAc)asparagine','N6-acetyllysine','N6-methyllysine_N6,N6-dimethyllysine_N6,N6,N6-trimethyllysine','Omega-N-methylarginine',
+    #'S-palmitoylcysteine','Pyrrolidonecarboxylicacid','Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)']
 
 	if os.path.exists(filepath):
 		blast_output(filepath,ptms)

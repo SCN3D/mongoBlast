@@ -1,4 +1,8 @@
-﻿import feedparser
+﻿# OS: Ubuntu, 18.04.1 LTS
+# Python: Python 2.7.15
+# Mongodb: v3.2.21 
+# Siteng Cai
+import feedparser
 from datetime import datetime as dt
 import urllib
 import gzip
@@ -121,7 +125,7 @@ def updateMongoDB(filepath,dbname,colname,date):
 		info_file = open("./output/info.txt","w")
 		json.dump(update_info, info_file)
 		info_file.close()
-		##TODO: after generate update info, do something
+
 
 # crontab job scheduler		
 def setAutoUpdate(update):
@@ -157,3 +161,52 @@ def merge_two_dicts(x, y):
     z = x.copy()   # start with x's keys and values
     z.update(y)    # modifies z with y's keys and values & returns None
     return z
+
+	
+#insert # after ptm position in seq, format: fasta
+def prepare(id,ft,seq):
+	seq_list = list(seq)
+	for c,i in enumerate(ft):
+		seq_list.insert(i+c,'#')
+	
+	sequence = ''.join(seq_list)
+	out_data = '>sp|'+id+'\n'+sequence+'\n'
+	return out_data
+#ptm annotation
+def MongotoPTMannotation(proteinIDs,Tag_FTs,output_prefix):
+	table = connectMongoDB('uniprot','table')
+
+	file = []
+	out_data = ''
+	
+	if not os.path.exists(output_prefix):
+		os.makedirs(output_prefix)
+	
+	for index, tag in enumerate(Tag_FTs):
+		file.append(open(output_prefix+'/'+tag+'.fasta','w'))
+		
+	
+	for id in proteinIDs:
+		ptm = table.find_one({'_id': id})
+		
+	
+		for index, ft in enumerate(Tag_FTs):
+			ft_index = []
+			unfold_ft = ft.split("_")
+			
+			for new_ft in unfold_ft:
+				if new_ft in ptm:
+					ft_index.extend(ptm[new_ft]) 
+			ft_index = map(int,ft_index)
+			#ft_index.sort()
+			ft_index=list(sorted(set(ft_index)))
+			if len(ft_index) >= 1:
+				sequence = ptm['sequence']
+				
+				out_data = prepare(ptm['ac'][0]+"|"+ptm['_id'],ft_index,sequence)
+				
+				file[index].write(out_data)
+					
+	for index, tag in enumerate(Tag_FTs):
+		file[index].close()
+		
