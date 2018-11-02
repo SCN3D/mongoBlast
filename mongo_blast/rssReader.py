@@ -22,7 +22,10 @@ def main():
 			
 	config = configparser.ConfigParser()
 	config.read('config.ini')
-	old_date = dt.strptime(config['DEFAULT']['date'],"%Y-%m-%d")
+	try:
+		old_date = dt.strptime(config['DEFAULT']['date'],"%Y-%m-%d").strftime('%Y-%m-%d')	
+	except:
+		print("run setup first!")
 	
 	new_date = functions.rssread()
 	
@@ -30,14 +33,13 @@ def main():
 		if train == 0:
 			os.system('python '+dir_path+'/tableGenerator2.py')
 			os.system('python '+dir_path+'/DBtoF.py')
+			os.system('python '+dir_path+'/annotations.py')
 			functions.Config_edit(new_date)
 		elif train == 1:
 			print("optional?")
 			functions.Config_edit(new_date)
 		else:
-			print("error")
-		
-		
+			print("error")	
 	else:
 		print("No new update!")
 if __name__== "__main__":

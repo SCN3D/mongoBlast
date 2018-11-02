@@ -26,7 +26,7 @@ def rssread():
 	date = feed['updated'].split(' ')
 	new_date = date[1]+'/'+date[2]+'/'+date[3]
 
-	new_date = dt.strptime(new_date,"%d/%b/%Y")
+	new_date = dt.strptime(new_date,"%d/%b/%Y").strftime('%Y-%m-%d')
 	return new_date
 
 def getUniprot():

@@ -129,8 +129,10 @@ def main():
 	if os.path.exists(filepath):
 		tableGeneration(filepath,ptms)
 		if args.update > 0:
+			table_date = functions.rssread()
 			functions.setAutoUpdate(args.update)
 			print("Check for update every %s months!" % (args.update))
+			functions.Config_edit(table_date)
 	else:
 		print("File does not exist\n")
 		sys.exit()
