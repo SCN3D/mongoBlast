@@ -122,16 +122,14 @@ def display_ptm(ptm,ptm_fp,ids):
 		#	print(ptm_fp.name+": "+out)
 		ptm_fp.write(out)
 	
-def blast_output(filepath,ptms):
+def blast_output(filepath,ptms,out_folder):
 	file = []
-	if not os.path.exists("data"):
-		os.makedirs("data")
 	
 	for ptm in ptms:
-		file.append(open('data/'+ptm+'.txt','w'))
+		file.append(open(out_folder+'/'+ptm+'.txt','w'))
 
 	table = functions.connectMongoDB('uniprot','table')
-	out_file = open('data/blast_output.txt','w')
+	out_file = open(out_folder+'/blast_output.txt','w')
 
 	seqs_start_position = 0
 	seqs_end_position = 0
@@ -252,15 +250,21 @@ def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-l', default='format2.txt',help="local filepath")
 	parser.add_argument('-ptms', nargs='*', default=['Phosphotyrosine'], help="ptms ptm1 ptm2")
+	parser.add_argument('-o', default='data',help="output folder name")
 	args = parser.parse_args()
 	filepath = args.l
 	ptms = args.ptms
+	out_folder = args.o
+
+	if not os.path.exists(out_folder):
+		os.makedirs(out_folder)
 
 	#ptms = ['Phosphoserine_Phosphothreonine','Phosphotyrosine','N-linked(GlcNAc)asparagine','N6-acetyllysine','N6-methyllysine_N6,N6-dimethyllysine_N6,N6,N6-trimethyllysine','Omega-N-methylarginine',
     #'S-palmitoylcysteine','Pyrrolidonecarboxylicacid','Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)']
 
+
 	if os.path.exists(filepath):
-		blast_output(filepath,ptms)
+		blast_output(filepath,ptms,out_folder)
 			
 	else:
 		print("File does not exist\n")
