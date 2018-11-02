@@ -88,7 +88,10 @@ def tableGeneration(filepath,ptms):
 				if doc == re.sub('[\.|\;].*','',temp_ptm):
 					ptms.setdefault(doc, []).append(out_position)
 			ptms = dict( [(k,list(itertools.chain.from_iterable(v))) for k,v in ptms.items() if len(v)>0])
-			fp.seek(prev_fp_pos)
+			# be ware tell and seek may perform slight differently in different OS, cause position disturb
+			# it is due to how python read files, the "read-ahead buffer"
+			# in that rare case add "bufferhead" or offset to recalibrate tell position
+			fp.seek(prev_fp_pos) 
 		elif tag == "SQ":
 			sequence = seq_read(fp)
 			out_data = functions.merge_two_dicts(out_data,ptms)
