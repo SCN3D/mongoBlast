@@ -31,7 +31,7 @@ def main():
 	
 	if new_date > old_date:
 		if train == 0:
-			os.system('python '+dir_path+'/tableGenerator2.py')
+			os.system('python '+dir_path+'/tableGenerator.py')
 			os.system('python '+dir_path+'/DBtoF.py')
 			os.system('python '+dir_path+'/annotations.py')
 			functions.Config_edit(new_date)
