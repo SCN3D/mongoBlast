@@ -20,7 +20,6 @@ def is_number(s):
 def seq_read(fp):
 	line = fp.readline().replace(" ", "").rstrip()
 	seq = ""
-
 	while line != '//':
 		seq += line
 		line = fp.readline().replace(" ", "").rstrip()
@@ -37,7 +36,7 @@ def tableGeneration(filepath,ptms):
 	temp_ptm = ""
 	prev_fp_pos = 0
 	check = []
-
+	
 	fp = open(filepath)
 	line = fp.readline()
 	while line:
@@ -45,7 +44,7 @@ def tableGeneration(filepath,ptms):
 		data = collapsed.split(";")
 		info = data[0].split(" ")
 		tag = info[0]
-
+		#print(info[0]+" info1 "+info[1]+"\n")
 		if tag == "ID":
 			out_id = info[1]
 		elif tag == "AC":
@@ -62,44 +61,56 @@ def tableGeneration(filepath,ptms):
 		elif tag == "FT":
 			temp_ptm = ""
 			out_position = functions.remove_duplicates([info[2],info[3]])
-			for i in range(4,len(info)):
-				temp_ptm += info[i].rstrip()
+			temp_ptm = " ".join(info[4:])
+			#if "Q7PLK0" in out_ac:
+			#	print("################temp_ptm is 1 "+temp_ptm+"\n")
 			prev_fp_pos = fp.tell()
 			line = ' '.join(fp.readline().split())
 			info = line.split(" ")
 			while info[0] == "FT":
 				if len(info) > 3 and is_number(info[2]) and is_number(info[3]):
+					#if "Q7PLK0" in out_ac:
+					#    print("###########temp_ptm is 2 "+temp_ptm+"\n")
 					temp_ptm = re.sub('(\.*)\)',')',temp_ptm)
 					for doc in ptms:
+						#if "Q7PLK0" in out_ac and doc == 'Symmetric dimethylarginine':
+						#	print(doc+" vs "+re.sub('[\.|\;].*','',temp_ptm)+"\n")
 						if doc == re.sub('[\.|\;].*','',temp_ptm):
+							#if "Q7PLK0" in out_ac:
+							#	print("yes\n")
 							ptms.setdefault(doc, []).append(out_position)
 					temp_ptm = ""
 					out_position = functions.remove_duplicates([info[2],info[3]])
-					for i in range(4,len(info)):
-						temp_ptm += info[i].rstrip()
+					temp_ptm = " ".join(info[4:])
 				else:
-					for i in range(1,len(info)):
-						temp_ptm += info[i].rstrip()
+					temp_ptm = temp_ptm + " ".join(info[1:])
+					#if "Q7PLK0" in out_ac:
+					#    print("#################temp_ptm is 3 "+temp_ptm+"\n")
+					#for i in range(1,len(info)):
+					#	temp_ptm += info[i].rstrip()
+					#print(temp_ptm+"\n")
 				prev_fp_pos = fp.tell()
 				line = ' '.join(fp.readline().split())
 				info = line.split(" ")
 			temp_ptm = re.sub('(\.*)\)',')',temp_ptm)
 			for doc in ptms:
+				#if "Q7PLK0" in out_ac and doc == 'Symmetric dimethylarginine':
+				#	print(doc+" vs "+re.sub('[\.|\;].*','',temp_ptm)+"\n")
 				if doc == re.sub('[\.|\;].*','',temp_ptm):
+					#if "Q7PLK0" in out_ac:
+					#		print("yes\n")
 					ptms.setdefault(doc, []).append(out_position)
 			ptms = dict( [(k,list(itertools.chain.from_iterable(v))) for k,v in ptms.items() if len(v)>0])
-			# be ware tell and seek may perform slight differently in different OS, cause position disturb
-			# it is due to how python read files, the "read-ahead buffer"
-			# in that rare case add "bufferhead" or offset to recalibrate tell position
-			fp.seek(prev_fp_pos) 
+			fp.seek(prev_fp_pos)
 		elif tag == "SQ":
 			sequence = seq_read(fp)
 			out_data = functions.merge_two_dicts(out_data,ptms)
 			out_data['sequence'] = sequence
 			table.save(out_data)
-				
+			
 			##rewind
-			ptms = {'Phosphoserine':[],'Phosphothreonine':[],'Phosphotyrosine':[],'N6-acetyllysine':[],'Omega-N-methylarginine':[],
+			ptms = {'Phosphoserine':[],'Phosphothreonine':[],'Phosphotyrosine':[],'N6-acetyllysine':[],
+			'Omega-N-methylarginine':[],'Dimethylated arginine':[],'Symmetric dimethylarginine':[],'Asymmetric dimethylarginine':[],
 			'N6-methyllysine':[],'N6,N6-dimethyllysine':[],'N6,N6,N6-trimethyllysine':[],'N-linked(GlcNAc)asparagine':[],
 			'S-palmitoylcysteine': [],'Pyrrolidonecarboxylicacid':[],'Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)':[]
 			,'Glycyllysineisopeptide(Lys-Gly)(interchainwithG-Cterinubiquitin)':[]}
@@ -108,11 +119,11 @@ def tableGeneration(filepath,ptms):
 			out_position = []
 			sequence = ""
 			check = []
-
+		
 		line = fp.readline()
 	
 	fp.close()
-	
+
 def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-l', default='uniprotData/uniprot.txt',help="local filepath")
@@ -120,11 +131,11 @@ def main():
 	args = parser.parse_args()
 	filepath = args.l
 	
-	ptms = {'Phosphoserine':[],'Phosphothreonine':[],'Phosphotyrosine':[],'N6-acetyllysine':[],'Omega-N-methylarginine':[],
+	ptms = {'Phosphoserine':[],'Phosphothreonine':[],'Phosphotyrosine':[],'N6-acetyllysine':[],
+	'Omega-N-methylarginine':[],'Dimethylated arginine':[],'Symmetric dimethylarginine':[],'Asymmetric dimethylarginine':[],
 	'N6-methyllysine':[],'N6,N6-dimethyllysine':[],'N6,N6,N6-trimethyllysine':[],'N-linked(GlcNAc)asparagine':[],
 	'S-palmitoylcysteine': [],'Pyrrolidonecarboxylicacid':[],'Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)':[]
 	,'Glycyllysineisopeptide(Lys-Gly)(interchainwithG-Cterinubiquitin)':[]}
-
 	if not os.path.exists("uniprotData"):
 		os.makedirs("uniprotData")
 	functions.getUniprot()
