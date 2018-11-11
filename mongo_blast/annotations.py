@@ -19,9 +19,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-out',default='data_'+ "_".join(time.asctime().split(" ")), help="output folder name")
     args = parser.parse_args()
-
-    ptms = ['Phosphoserine_Phosphothreonine','Phosphotyrosine','N-linked(GlcNAc)asparagine','N6-acetyllysine','N6-methyllysine_N6,N6-dimethyllysine_N6,N6,N6-trimethyllysine','Omega-N-methylarginine',
-    'S-palmitoylcysteine','Pyrrolidonecarboxylicacid','Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)']
+    ptms = {'Phosphoserine_Phosphothreonine':[],'Phosphotyrosine':[],'N6-acetyllysine':[],
+    'Omega-N-methylarginine_Dimethylated arginine_Symmetric dimethylarginine_Asymmetric dimethylarginine':[],
+    'N6-methyllysine_N6,N6-dimethyllysine_N6,N6,N6-trimethyllysine':[],
+    'N-linked(GlcNAc)asparagine':[],
+    'S-palmitoylcysteine': [],'Pyrrolidonecarboxylicacid':[],'Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)':[]
+    ,'Glycyllysineisopeptide(Lys-Gly)(interchainwithG-Cterinubiquitin)':[]}
     ids = get_ids("Metazoa")
     
     folder_path = args.out
