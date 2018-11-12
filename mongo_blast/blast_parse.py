@@ -40,7 +40,7 @@ def get_ptms(ptm,table,ids,s_p,e_p,insertions,deletions,seqs):
 			for i in data[ptm]:
 				if int(i) >= s_p[id] and int(i) <= e_p[id]:
 
-					out_ptm = int(i) - s_p[id] + pad + 15
+					out_ptm = int(i) - s_p[id] + pad + 1
 
 					temp_ptm = out_ptm
 					# first calc insertions
