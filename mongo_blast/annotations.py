@@ -22,9 +22,9 @@ def main():
     ptms = {'Phosphoserine_Phosphothreonine':[],'Phosphotyrosine':[],'N6-acetyllysine':[],
     'Omega-N-methylarginine_Dimethylated arginine_Symmetric dimethylarginine_Asymmetric dimethylarginine':[],
     'N6-methyllysine_N6,N6-dimethyllysine_N6,N6,N6-trimethyllysine':[],
-    'N-linked(GlcNAc)asparagine':[],
-    'S-palmitoylcysteine': [],'Pyrrolidonecarboxylicacid':[],'Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)':[]
-    ,'Glycyllysineisopeptide(Lys-Gly)(interchainwithG-Cterinubiquitin)':[]}
+    'N-linked (GlcNAc) asparagine':[],
+    'S-palmitoyl cysteine': [],'Pyrrolidone carboxylic acid':[],'Glycyl lysine isopeptide (Lys-Gly)(interchain with G-Cter in SUMO)':[]
+    ,'Glycyl lysine isopeptide (Lys-Gly)(interchain with G-Cter in ubiquitin)':[]}
     ids = get_ids("Metazoa")
     
     folder_path = args.out
