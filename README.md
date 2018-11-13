@@ -15,7 +15,7 @@ Install MongoDB and Blast:
 
 Run:  
 1.mongod
-2.(First time setup)Run: python getuniprottxt.py && uniprotCreateDB.py -update 1 && python DBtoF.py && python tableGenerator.py  
+2.(First time setup)Run: python getuniprottxt.py && python uniprotCreateDB.py -update 1 && python DBtoF.py && python tableGenerator.py  
 2.When user query:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1)makeblastdb -in background_seqs.fasta -dbtype prot  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2)blastp -task blastp -query ../../mongoBlast/mongo_blast/query_seqs.fasta -db ../../mongoBlast/mongo_blast/background_seqs.fasta -evalue 1e-5 -num_descriptions 100000 -num_alignments 100000 -out format8.txt
