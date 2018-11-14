@@ -18,7 +18,7 @@ Run:
 2.(First time setup)Run: python getuniprottxt.py && python uniprotCreateDB.py -update 1 && python DBtoF.py && python tableGenerator.py  
 2.When user query:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1)makeblastdb -in background_seqs.fasta -dbtype prot  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2)blastp -task blastp -query ../../mongoBlast/mongo_blast/query_seqs.fasta -db ../../mongoBlast/mongo_blast/background_seqs.fasta -evalue 1e-5 -num_descriptions 100000 -num_alignments 100000 -out format8.txt
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2) blastp -task blastp -query query_seqs.fasta -db background_seqs.fasta -evalue 1e-5 -num_descriptions 100000 -num_alignments 100000 -outfmt 2 -out format2.txt
 
 3.Functions:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3)Generate display(data/input1.txt): python blastoutput.py  
