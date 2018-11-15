@@ -15,7 +15,7 @@ Install MongoDB and Blast:
 
 Run:  
 1.mongod
-2.(First time setup)Run: python tableGenerator.py -update 1 && python DBtoF.py && python annotations.py
+2.(First time setup)Run: python tableGenerator.py && python DBtoF.py && python annotations.py
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1)makeblastdb -in background_seqs.fasta -dbtype prot  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2) blastp -task blastp -query query_seqs.fasta -db background_seqs.fasta -evalue 1e-5 -num_descriptions 100000 -num_alignments 100000 -outfmt 2 -out format2.txt
 
