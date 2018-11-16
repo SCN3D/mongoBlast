@@ -87,11 +87,12 @@ def get_deletions(fp,seq_start,seq_index):
 	return deletions
 
 def get_ids(fp):
-	fp.readline()
-	fp.readline()
-	fp.readline()
-	fp.readline()
-	fp.readline() # skip redundent info
+	tag = "tag!"
+	while tag != "Sequences":
+		collapsed = ' '.join(fp.readline().split())
+		data = collapsed.split(" ")
+		tag = data[0]
+	fp.readline()# skip redundent info
 	ids = []
 	line = fp.readline()
 
