@@ -152,7 +152,7 @@ def blast_output(filepath,ptms,out_folder):
 		tag = data[0]
 		#print("tag: "+tag)
 		if tag == "Query=":
-			q_name = data[1]
+			q_name = "Query_1"
 
 			ids = get_ids(fp)
 		elif tag.lower() == q_name.lower():
