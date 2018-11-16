@@ -15,7 +15,7 @@ def is_number(s):
         return True
     except ValueError:
         pass
-	return False
+    return False
 
 def seq_read(fp):
 	line = fp.readline().replace(" ", "").rstrip()
@@ -24,7 +24,7 @@ def seq_read(fp):
 		seq += line
 		line = fp.readline().replace(" ", "").rstrip()
 	return seq
-	
+
 def tableGeneration(filepath,ptms):
 	table = functions.connectMongoDB('uniprot','table')
 	table.drop()
@@ -62,21 +62,21 @@ def tableGeneration(filepath,ptms):
 			temp_ptm = ""
 			out_position = functions.remove_duplicates([info[2],info[3]])
 			temp_ptm = " ".join(info[4:])
-			#if "Q7PLK0" in out_ac:
+			#if "Q9TT90" in out_ac:
 			#	print("################temp_ptm is 1 "+temp_ptm+"\n")
 			prev_fp_pos = fp.tell()
 			line = ' '.join(fp.readline().split())
 			info = line.split(" ")
 			while info[0] == "FT":
 				if len(info) > 3 and is_number(info[2]) and is_number(info[3]):
-					#if "Q7PLK0" in out_ac:
+					#if "Q9TT90" in out_ac:
 					#    print("###########temp_ptm is 2 "+temp_ptm+"\n")
 					temp_ptm = re.sub('(\.*)\)',')',temp_ptm)
 					for doc in ptms:
-						#if "Q7PLK0" in out_ac and doc == 'Symmetric dimethylarginine':
+						#if "Q9TT90" in out_ac and doc == 'Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)':
 						#	print(doc+" vs "+re.sub('[\.|\;].*','',temp_ptm)+"\n")
 						if doc == re.sub('[\.|\;].*','',temp_ptm):
-							#if "Q7PLK0" in out_ac:
+							#if "Q9TT90" in out_ac:
 							#	print("yes\n")
 							ptms.setdefault(doc, []).append(out_position)
 					temp_ptm = ""
@@ -84,7 +84,7 @@ def tableGeneration(filepath,ptms):
 					temp_ptm = " ".join(info[4:])
 				else:
 					temp_ptm = temp_ptm + " ".join(info[1:])
-					#if "Q7PLK0" in out_ac:
+					#if "Q9TT90" in out_ac:
 					#    print("#################temp_ptm is 3 "+temp_ptm+"\n")
 					#for i in range(1,len(info)):
 					#	temp_ptm += info[i].rstrip()
@@ -94,10 +94,10 @@ def tableGeneration(filepath,ptms):
 				info = line.split(" ")
 			temp_ptm = re.sub('(\.*)\)',')',temp_ptm)
 			for doc in ptms:
-				#if "Q7PLK0" in out_ac and doc == 'Symmetric dimethylarginine':
+				#if "Q9TT90" in out_ac and doc == 'Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)':
 				#	print(doc+" vs "+re.sub('[\.|\;].*','',temp_ptm)+"\n")
 				if doc == re.sub('[\.|\;].*','',temp_ptm):
-					#if "Q7PLK0" in out_ac:
+					#if "Q9TT90" in out_ac:
 					#		print("yes\n")
 					ptms.setdefault(doc, []).append(out_position)
 			ptms = dict( [(k,list(itertools.chain.from_iterable(v))) for k,v in ptms.items() if len(v)>0])
@@ -111,9 +111,9 @@ def tableGeneration(filepath,ptms):
 			##rewind
 			ptms = {'Phosphoserine':[],'Phosphothreonine':[],'Phosphotyrosine':[],'N6-acetyllysine':[],
 			'Omega-N-methylarginine':[],'Dimethylated arginine':[],'Symmetric dimethylarginine':[],'Asymmetric dimethylarginine':[],
-			'N6-methyllysine':[],'N6,N6-dimethyllysine':[],'N6,N6,N6-trimethyllysine':[],'N-linked(GlcNAc)asparagine':[],
-			'S-palmitoylcysteine': [],'Pyrrolidonecarboxylicacid':[],'Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)':[]
-			,'Glycyllysineisopeptide(Lys-Gly)(interchainwithG-Cterinubiquitin)':[]}
+			'N6-methyllysine':[],'N6,N6-dimethyllysine':[],'N6,N6,N6-trimethyllysine':[],'N-linked (GlcNAc) asparagine':[],
+			'S-palmitoyl cysteine': [],'Pyrrolidone carboxylic acid':[],'Glycyl lysine isopeptide (Lys-Gly)(interchain with G-Cter in SUMO)':[]
+			,'Glycyl lysine isopeptide (Lys-Gly)(interchain with G-Cter in ubiquitin)':[]}
 			out_data.clear()
 			out_ac = []
 			out_position = []
@@ -133,9 +133,9 @@ def main():
 	
 	ptms = {'Phosphoserine':[],'Phosphothreonine':[],'Phosphotyrosine':[],'N6-acetyllysine':[],
 	'Omega-N-methylarginine':[],'Dimethylated arginine':[],'Symmetric dimethylarginine':[],'Asymmetric dimethylarginine':[],
-	'N6-methyllysine':[],'N6,N6-dimethyllysine':[],'N6,N6,N6-trimethyllysine':[],'N-linked(GlcNAc)asparagine':[],
-	'S-palmitoylcysteine': [],'Pyrrolidonecarboxylicacid':[],'Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)':[]
-	,'Glycyllysineisopeptide(Lys-Gly)(interchainwithG-Cterinubiquitin)':[]}
+	'N6-methyllysine':[],'N6,N6-dimethyllysine':[],'N6,N6,N6-trimethyllysine':[],'N-linked (GlcNAc) asparagine':[],
+	'S-palmitoyl cysteine': [],'Pyrrolidone carboxylic acid':[],'Glycyl lysine isopeptide (Lys-Gly)(interchain with G-Cter in SUMO)':[]
+	,'Glycyl lysine isopeptide (Lys-Gly)(interchain with G-Cter in ubiquitin)':[]}
 	if not os.path.exists("uniprotData"):
 		os.makedirs("uniprotData")
 	functions.getUniprot()
