@@ -17,6 +17,14 @@ class deletion_data:
         self.pos = pos
         self.seq = seq
 
+def is_int(str):
+	try:
+		int(str)
+	except ValueError:
+		return False
+	else:
+		return True
+
 def prepare(id,relative_positions):
 	out_data = id
 	for i in relative_positions:
@@ -75,15 +83,29 @@ def get_ptms(ptm,table,ids,s_p,e_p,insertions,deletions,seqs):
 	
 def get_deletions(fp,seq_start,seq_index):
 	deletions = []
-
 	line = fp.readline()
 	indexes = [(m.start() + seq_index - int(seq_start)) for m in re.finditer(r"\|+", line)]
-	#print(line)
+
 	line = fp.readline()
+	line = re.sub("|","",line)
 	collapsed = ' '.join(line.split())
 	data = collapsed.split(" ")
+	
+	deletion_strs = []
+
+	while len(deletion_strs) < len(indexes):
+		if not data:
+			line = fp.readline()
+			line = re.sub("|","",line)
+			collapsed = ' '.join(line.split())
+			data = collapsed.split(" ")
+		else:
+			for d in data:
+				deletion_strs.append(d)
+
 	for counter, i in enumerate(indexes):
-		deletions.append(deletion_data(i,data[counter]))
+		deletions.append(deletion_data(i,deletion_strs[counter]))
+
 	return deletions
 
 def get_ids(fp):
@@ -181,7 +203,7 @@ def blast_output(filepath,ptms,out_folder):
 						q_seq += data[2]
 					else:
 						print("special case!")
-				elif len(data) == 4 and int(data[1]) and int(data[3]): # if its subjects
+				elif len(data) == 4 and is_int(data[1]) and is_int(data[3]): # if its subjects
 					if data[0] in output: # if its not head
 						prev_ac = data[0]
 						prev_start = int(data[1])
@@ -191,6 +213,7 @@ def blast_output(filepath,ptms,out_folder):
 						prev_ac = data[0]
 						prev_start = int(data[1])
 						seqs_start_index[data[0]] = int(data[1])
+						seqs_end_index[data[0]] = int(data[3])
 						output[data[0]] = line[seqs_start_position:seqs_end_position]
 						acs.append(data[0])
 				elif data[0] == "\\":
@@ -213,7 +236,7 @@ def blast_output(filepath,ptms,out_folder):
 			#		if ptm in temp:
 			#			print(temp[ptm])
 			##################
-
+		
 			# preprocess data
 			converter = dict(zip(acs,ids))
 			for ncbi in converter:
