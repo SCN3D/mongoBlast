@@ -128,7 +128,7 @@ def get_ids(fp):
 def get_inserts(string):
 	inserts = [m.span() for m in re.finditer("-+", string)]
 	for counter, i in enumerate(inserts):
-		inserts[counter] = [x+14 for x in i]
+		inserts[counter] = [x for x in i]
 		#print(inserts[counter])
 	return inserts # m.start() => inserts[0]; m.end() => inserts[1] 
 	
@@ -282,10 +282,6 @@ def main():
 
 	if not os.path.exists(out_folder):
 		os.makedirs(out_folder)
-
-	#ptms = ['Phosphoserine_Phosphothreonine','Phosphotyrosine','N-linked(GlcNAc)asparagine','N6-acetyllysine','N6-methyllysine_N6,N6-dimethyllysine_N6,N6,N6-trimethyllysine','Omega-N-methylarginine',
-    #'S-palmitoylcysteine','Pyrrolidonecarboxylicacid','Glycyllysineisopeptide(Lys-Gly)(interchainwithG-CterinSUMO)']
-
 
 	if os.path.exists(filepath):
 		blast_output(filepath,ptms,out_folder)
