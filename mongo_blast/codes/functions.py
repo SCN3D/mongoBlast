@@ -17,6 +17,13 @@ import configparser
 import re
 import json
 import itertools
+import os
+import getpass
+
+#GLOBAL VAR
+USER_NAME = getpass.getuser()
+PARENT_DIR = os.path.dirname(os.getcwd())
+
 
 def rssread():
 	url = 'https://www.uniprot.org/news/?format=rss'
@@ -130,7 +137,7 @@ def updateMongoDB(filepath,dbname,colname,date):
 # crontab job scheduler		
 def setAutoUpdate(update):
 	dir_path = os.path.dirname(os.path.realpath(__file__))
-	my_cron = CronTab('ubuntu')
+	my_cron = CronTab(USER_NAME)
 	cmd = "/usr/bin/python "+dir_path+"/rssReader.py"
 	job = my_cron.new(command=cmd)
 	job.every(update).months()
@@ -178,7 +185,6 @@ def MongotoPTMannotation(proteinIDs,Tag_FTs,output_prefix):
 
 	file = []
 	out_data = ''
-	
 	if not os.path.exists(output_prefix):
 		os.makedirs(output_prefix)
 	

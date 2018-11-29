@@ -39,6 +39,7 @@ def tableGeneration(filepath,ptms):
 	
 	fp = open(filepath)
 	line = fp.readline()
+	
 	while line:
 		collapsed = ' '.join(line.split())
 		data = collapsed.split(";")

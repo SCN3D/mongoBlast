@@ -17,6 +17,11 @@ class deletion_data:
         self.pos = pos
         self.seq = seq
 
+def reposition_seq(str,pad):
+	len_str = len(str) + pad * 60
+	return str.rjust(len_str)
+
+
 def is_int(str):
 	try:
 		int(str)
@@ -167,6 +172,8 @@ def blast_output(filepath,ptms,out_folder):
 	fp = open(filepath)
 	line = fp.readline()
 
+	sequence_pad = -1
+
 
 	while line:
 		collapsed = ' '.join(line.split())
@@ -195,6 +202,7 @@ def blast_output(filepath,ptms,out_folder):
 
 			while line and data[0] != "Lambda":
 				if data[0].lower() == q_name.lower(): # if its query
+					sequence_pad += 1
 					seqs_start_position = line.find(data[2])
 					seqs_end_position = line.find(data[3]) - 2
 					# print("start: "+str(seqs_start_position)+"--->end: "+str(seqs_end_position))
@@ -214,7 +222,7 @@ def blast_output(filepath,ptms,out_folder):
 						prev_start = int(data[1])
 						seqs_start_index[data[0]] = int(data[1])
 						seqs_end_index[data[0]] = int(data[3])
-						output[data[0]] = line[seqs_start_position:seqs_end_position]
+						output[data[0]] = reposition_seq(line[seqs_start_position:seqs_end_position],sequence_pad)
 						acs.append(data[0])
 				elif data[0] == "\\":
 					if prev_ac in ac_deletions:
@@ -272,9 +280,9 @@ def blast_output(filepath,ptms,out_folder):
 	
 def main():
 	parser = argparse.ArgumentParser()
-	parser.add_argument('-l', default='format2.txt',help="local filepath")
+	parser.add_argument('-l', default=functions.PARENT_DIR+'/format2.txt',help="local filepath")
 	parser.add_argument('-ptms', nargs='*', default=['Phosphotyrosine'], help="ptms ptm1 ptm2")
-	parser.add_argument('-o', default='data',help="output folder name")
+	parser.add_argument('-o', default=functions.PARENT_DIR+'/display',help="output folder name")
 	args = parser.parse_args()
 	filepath = args.l
 	ptms = args.ptms

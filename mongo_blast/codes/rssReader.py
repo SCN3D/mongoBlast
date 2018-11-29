@@ -10,7 +10,6 @@ from datetime import datetime as dt
 import os
 
 # read rss feed from uniprot, update database if there is a new update
-
 def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-train', type=int, choices=[0,1],default=0, help="set to 1 for output updated id list,default 0")

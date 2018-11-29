@@ -27,7 +27,7 @@ def main():
     ,'Glycyl lysine isopeptide (Lys-Gly)(interchain with G-Cter in ubiquitin)':[]}
     ids = get_ids("Metazoa")
     
-    folder_path = args.out
+    folder_path = functions.PARENT_DIR+'/'+args.out
     
     functions.MongotoPTMannotation(ids,ptms,folder_path)
   
