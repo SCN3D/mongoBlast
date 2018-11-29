@@ -139,7 +139,9 @@ def main():
 	,'Glycyl lysine isopeptide (Lys-Gly)(interchain with G-Cter in ubiquitin)':[]}
 	if not os.path.exists("uniprotData"):
 		os.makedirs("uniprotData")
-	functions.getUniprot()
+
+	if not os.path.isfile(filepath):
+		functions.getUniprot()
 	
 	if os.path.exists(filepath):
 		tableGeneration(filepath,ptms)

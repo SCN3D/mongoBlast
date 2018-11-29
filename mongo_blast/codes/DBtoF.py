@@ -40,8 +40,8 @@ def main():
 	args = parser.parse_args()
 	
 	file_name = args.out
-	file_path = functions.PARENT_DIR+'/'+file_name
-	db_to_fasta(file_path)
+
+	db_to_fasta(file_name)
   
 if __name__== "__main__":
 	main()

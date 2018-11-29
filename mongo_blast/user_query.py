@@ -2,22 +2,20 @@
 # Python: Python 2.7.15
 # Mongodb: v3.2.21 
 # Siteng Cai
-import sys
+
 import os
 import argparse
 import subprocess
-path = os.path.dirname(os.path.realpath(__file__))
-sys.path.insert(0, path+'/codes')
-import functions
 
 def main():
+    path = os.path.dirname(os.path.realpath(__file__))
     parser = argparse.ArgumentParser()
-    parser.add_argument('-l', default=functions.PARENT_DIR+'/format2.txt',help="local filepath")
+    parser.add_argument('-l', default=path+'/format2.txt',help="local filepath")
     parser.add_argument('-ptms', nargs='*', default=['Phosphotyrosine'], help="ptms ptm1 ptm2")
-    parser.add_argument('-o', default=functions.PARENT_DIR+'/display',help="output folder name")
+    parser.add_argument('-o', default=path+'/display',help="output folder name")
     args = parser.parse_args()
     filepath = args.l
-    ptms = args.ptms
+    ptms = ' '.join(args.ptms)
     out_folder = args.o
 
     step_1 = 'blastall -p blastp -i query_seqs.fasta -d background_seqs.fasta -e 1e-5 -v 50 -b 50 -m 2 -o format2.txt'
@@ -25,6 +23,7 @@ def main():
     
 
     subprocess.call([step_1],shell=True)
+    print('step 1 done')
     subprocess.call(['python',step_2,'-l',filepath,'-ptms',ptms,'-o',out_folder])
     print("User query Finished")
 

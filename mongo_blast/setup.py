@@ -15,7 +15,7 @@ def main():
     step_2 = 'codes/DBtoF.py'
     step_3 = 'codes/annotations.py'
     step_4 = 'formatdb -i background_seqs.fasta -p T'
-    subprocess.call(['python',step_1,'-update',args.update])
+    subprocess.call(['python',step_1,'-update',str(args.update)])
     subprocess.call(['python',step_2])
     subprocess.call(['python',step_3])
     subprocess.call([step_4],shell=True)

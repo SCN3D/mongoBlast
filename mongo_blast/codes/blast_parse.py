@@ -280,9 +280,9 @@ def blast_output(filepath,ptms,out_folder):
 	
 def main():
 	parser = argparse.ArgumentParser()
-	parser.add_argument('-l', default=functions.PARENT_DIR+'/format2.txt',help="local filepath")
+	parser.add_argument('-l', default='/format2.txt',help="local filepath")
 	parser.add_argument('-ptms', nargs='*', default=['Phosphotyrosine'], help="ptms ptm1 ptm2")
-	parser.add_argument('-o', default=functions.PARENT_DIR+'/display',help="output folder name")
+	parser.add_argument('-o', default='/display',help="output folder name")
 	args = parser.parse_args()
 	filepath = args.l
 	ptms = args.ptms
@@ -292,8 +292,9 @@ def main():
 		os.makedirs(out_folder)
 
 	if os.path.exists(filepath):
-		blast_output(filepath,ptms,out_folder)
-			
+		print('start')
+		blast_output(filepath,ptms,out_folder)	
+		print('finish')	
 	else:
 		print("File does not exist\n")
 		sys.exit()

@@ -25,9 +25,9 @@ def main():
     'N-linked (GlcNAc) asparagine':[],
     'S-palmitoyl cysteine': [],'Pyrrolidone carboxylic acid':[],'Glycyl lysine isopeptide (Lys-Gly)(interchain with G-Cter in SUMO)':[]
     ,'Glycyl lysine isopeptide (Lys-Gly)(interchain with G-Cter in ubiquitin)':[]}
-    ids = get_ids("Metazoa")
     
-    folder_path = functions.PARENT_DIR+'/'+args.out
+    ids = get_ids("Metazoa")
+    folder_path = args.out
     
     functions.MongotoPTMannotation(ids,ptms,folder_path)
   
