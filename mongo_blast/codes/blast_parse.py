@@ -137,13 +137,11 @@ def get_inserts(string):
 		#print(inserts[counter])
 	return inserts # m.start() => inserts[0]; m.end() => inserts[1] 
 
-def display_output(q_id,q_seq,output,ids,fp):
-#def display_output(q_id,q_seq,output,ids,identities,fp):
+def display_output(q_id,q_seq,output,ids,identities,fp):
 	q_id = '{:14}'.format(q_id)
 	fp.write(q_id + q_seq + "\n")
 	for id in ids:
-		#fp.write('{:14}'.format(id) + '{:8}'.format(identities[id]) + output[id] +  "\n")
-		fp.write('{:14}'.format(id) + output[id] +  "\n")
+		fp.write('{:14}'.format(id) + '{:8}'.format(identities[id]) + output[id] +  "\n")
 
 def display_ptm(ptm,ptm_fp,ids):
 	for id in ids:
@@ -285,9 +283,9 @@ def blast_output(filepath,ptms,out_folder):
 			for counter, ptm in enumerate(ptms):
 				ab_ptms = get_ptms(ptm,table,ids,seqs_start_index,seqs_end_index,insertions,ac_deletions,output)
 				display_ptm(ab_ptms,file[counter],ids)
-			#identities = get_identities()
-			#display_output(q_name,q_seq,output,ids,identities,out_file)
-			display_output(q_name,q_seq,output,ids,out_file)
+			identities = get_identities()
+			display_output(q_name,q_seq,output,ids,identities,out_file)
+
 		line = fp.readline()
 	
 	

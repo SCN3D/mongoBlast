@@ -24,12 +24,10 @@ Crontab:
 
 Run:  
 1.mongod  
-2.(First time setup)Run: python tableGenerator.py -update 1 && python DBtoF.py && Generate annotations(data/*.fasta): python annotations.py && formatdb -i background_seqs.fasta -p T
-3.When user query:   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1)blastall -p blastp -i query_seqs.fasta -d background_seqs.fasta -e 1e-5 -v 20 -b 20 -m 2 -o format2.txt  
-4.Functions:  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1)Generate display(data/blast_output.txt): python blast_parse.py  -l 'blastoutputpath' -ptms ptm1 ptm2 -o 'output folder name'
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;----output1: data/blast_out.txt (disaplay sequences)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;----output2: data/*.txt (ptm positions)  
+2.(First time setup)Run: python setup.py -update 1  
+3.When user query: python user_query.py -ptms ptm ptm ptm  
+4.Outputs:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;----output1: display/blast_out.txt (disaplay sequences)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;----output2: display/*.txt (ptm positions)  
 
 
