@@ -19,12 +19,13 @@ def main():
     out_folder = args.o
 
     step_1 = 'blastall -p blastp -i query_seqs.fasta -d background_seqs.fasta -e 1e-5 -v 50 -b 50 -m 2 -o format2.txt'
-    step_2 = 'codes/blast_parse.py'
+    step_2 = 'blastall -p blastp -i query_seqs.fasta -d background_seqs.fasta -e 1e-5 -v 50 -b 50 -m 8 -o format8.txt'
+    step_3 = 'python codes/blast_parse.py -l '+filepath+' -ptms '+ptms+' -o '+out_folder
     
 
     subprocess.call([step_1],shell=True)
-    print('step 1 done')
-    subprocess.call(['python',step_2,'-l',filepath,'-ptms',ptms,'-o',out_folder])
+    subprocess.call([step_2],shell=True)
+    subprocess.call([step_3],shell=True)
     print("User query Finished")
 
   

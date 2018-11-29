@@ -136,11 +136,13 @@ def get_inserts(string):
 		inserts[counter] = [x for x in i]
 		#print(inserts[counter])
 	return inserts # m.start() => inserts[0]; m.end() => inserts[1] 
-	
+
 def display_output(q_id,q_seq,output,ids,fp):
+#def display_output(q_id,q_seq,output,ids,identities,fp):
 	q_id = '{:14}'.format(q_id)
 	fp.write(q_id + q_seq + "\n")
 	for id in ids:
+		#fp.write('{:14}'.format(id) + '{:8}'.format(identities[id]) + output[id] +  "\n")
 		fp.write('{:14}'.format(id) + output[id] +  "\n")
 
 def display_ptm(ptm,ptm_fp,ids):
@@ -149,6 +151,21 @@ def display_ptm(ptm,ptm_fp,ids):
 		#if len(ptm[id]) > 0:
 		#	print(ptm_fp.name+": "+out)
 		ptm_fp.write(out)
+
+def get_identities():
+	out = dict()
+	file_name = 'format8.txt'
+	fp = open(file_name)
+	line = fp.readline()
+	while line:
+		collapsed = ' '.join(line.split())
+		data = collapsed.split(" ")
+		id = data[1]
+		identity = data[2]
+		out[id] = identity
+		line = fp.readline()
+	return out
+	
 	
 def blast_output(filepath,ptms,out_folder):
 	file = []
@@ -268,7 +285,8 @@ def blast_output(filepath,ptms,out_folder):
 			for counter, ptm in enumerate(ptms):
 				ab_ptms = get_ptms(ptm,table,ids,seqs_start_index,seqs_end_index,insertions,ac_deletions,output)
 				display_ptm(ab_ptms,file[counter],ids)
-			
+			#identities = get_identities()
+			#display_output(q_name,q_seq,output,ids,identities,out_file)
 			display_output(q_name,q_seq,output,ids,out_file)
 		line = fp.readline()
 	
@@ -280,9 +298,9 @@ def blast_output(filepath,ptms,out_folder):
 	
 def main():
 	parser = argparse.ArgumentParser()
-	parser.add_argument('-l', default='/format2.txt',help="local filepath")
+	parser.add_argument('-l', default='format2.txt',help="local filepath")
 	parser.add_argument('-ptms', nargs='*', default=['Phosphotyrosine'], help="ptms ptm1 ptm2")
-	parser.add_argument('-o', default='/display',help="output folder name")
+	parser.add_argument('-o', default='display',help="output folder name")
 	args = parser.parse_args()
 	filepath = args.l
 	ptms = args.ptms
@@ -292,9 +310,7 @@ def main():
 		os.makedirs(out_folder)
 
 	if os.path.exists(filepath):
-		print('start')
 		blast_output(filepath,ptms,out_folder)	
-		print('finish')	
 	else:
 		print("File does not exist\n")
 		sys.exit()
