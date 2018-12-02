@@ -33,7 +33,7 @@ Run:
       2)blastall -p blastp -i query_seqs.fasta -d background_seqs.fasta -e 1e-5 -v 100000 -b 100000 -m 8 -o format8.txt
       blastall -p blastp -i query_seqs.fasta -d background_seqs.fasta -e 1e-5 -v 100000 -b 100000 -m 11 -o format11.txt -J T
       
-      blastp -task blastp -query query_seqs.fasta -db background_seqs.fasta -evalue 1e-5 -num_descriptions 100000 -num_alignments 100000 -outfmt2 -out format2.txt
+      blastp -task blastp -query query_seqs.fasta -db background_seqs.fasta -evalue 1e-5 -num_descriptions 100000 -num_alignments 100000 -outfmt 2 -out format2.txt
 4 Functions:
       
       3)Generate display(data/blast_output.txt): python blastoutput.py
