@@ -152,7 +152,7 @@ def display_ptm(ptm,ptm_fp,ids):
 
 def get_identities():
 	out = dict()
-	file_name = 'format8.txt'
+	file_name = 'format6.txt'
 	fp = open(file_name)
 	line = fp.readline()
 	while line:

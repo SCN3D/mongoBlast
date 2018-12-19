@@ -127,7 +127,7 @@ def tableGeneration(filepath,ptms):
 
 def main():
 	parser = argparse.ArgumentParser()
-	parser.add_argument('-l', default='uniprotData/uniprot.txt',help="local filepath")
+	parser.add_argument('-l', default='uniprotData/uniprot.txt',help="local filepath,default path can trigger auto download")
 	parser.add_argument('-update', type=int, default=0, help="update options: check every # months, default to manual(0)")
 	args = parser.parse_args()
 	filepath = args.l
@@ -140,7 +140,7 @@ def main():
 	if not os.path.exists("uniprotData"):
 		os.makedirs("uniprotData")
 
-	if not os.path.isfile(filepath):
+	if filepath == 'uniprotData/uniprot.txt':
 		functions.getUniprot()
 	
 	if os.path.exists(filepath):

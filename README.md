@@ -8,15 +8,10 @@ Install MongoDB and Blast:
 2.cd /  
 3.sudo mkdir -p data/db  
 4.sudo chmod 777 /data/db  
-5.sudo apt install blast2=2.6.0+  
-or download from https://launchpad.net/ubuntu/+source/ncbi-blast+/2.6.0-1  
-gunzip xxx.gz  
-tar -xvf xxx.tar  
-cd c++  
-./configure  
-cd ReleaseMT/build  
-make all_r  
-  
+5.sudo apt install blast2=2.7.1+
+or wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/ncbi-blast-2.7.1+-x64-linux.tar.gz  
+tar zxvpf ncbi-blast-2.7.1+-x64-linux.tar.gz  
+export PATH=$PATH:$HOME/ncbi-blast-2.7.1+/bin:$PATH  
 
 Crontab:  
 1.pip uninstall crontab  

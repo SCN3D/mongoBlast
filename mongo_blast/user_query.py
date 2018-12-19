@@ -18,14 +18,16 @@ def main():
     ptms = ' '.join(args.ptms)
     out_folder = args.o
 
-    step_1 = 'blastall -p blastp -i query_seqs.fasta -d background_seqs.fasta -e 1e-5 -v 50 -b 50 -m 2 -o format2.txt'
-    step_2 = 'blastall -p blastp -i query_seqs.fasta -d background_seqs.fasta -e 1e-5 -v 50 -b 50 -m 8 -o format8.txt'
-    step_3 = 'python codes/blast_parse.py -l '+filepath+' -ptms '+ptms+' -o '+out_folder
+    step_1 = 'blastp -query query_seqs.fasta -db mydb -evalue 1e-5 -max_target_seqs 50 -outfmt 11 -out format11.asn'
+    step_2 = 'blast_formatter -archive format11.asn -outfmt "6 qseqid sseqid pident" -out format6.txt'
+    step_3 = 'blast_formatter -archive format11.asn -outfmt 2 -out format2.txt'
+    step_4 = 'python codes/blast_parse.py -l '+filepath+' -ptms '+ptms+' -o '+out_folder
     
 
     subprocess.call([step_1],shell=True)
     subprocess.call([step_2],shell=True)
     subprocess.call([step_3],shell=True)
+    subprocess.call([step_4],shell=True)
     print("User query Finished")
 
   

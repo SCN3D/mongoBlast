@@ -14,7 +14,7 @@ def main():
     step_1 = 'codes/tableGenerator.py'
     step_2 = 'codes/DBtoF.py'
     step_3 = 'codes/annotations.py'
-    step_4 = 'formatdb -i background_seqs.fasta -p T'
+    step_4 = 'makeblastdb -in background_seqs.fasta -dbtype prot -out mydb'
     subprocess.call(['python',step_1,'-update',str(args.update)])
     subprocess.call(['python',step_2])
     subprocess.call(['python',step_3])
