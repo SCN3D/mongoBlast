@@ -106,9 +106,9 @@ def tableGeneration(filepath,ptms):
 		elif tag == "SQ":
 			sequence = seq_read(fp)
 			out_data = functions.merge_two_dicts(out_data,ptms)
+	        elif tag =="//":
 			out_data['sequence'] = sequence
 			table.save(out_data)
-			
 			##rewind
 			ptms = {'Phosphoserine':[],'Phosphothreonine':[],'Phosphotyrosine':[],'N6-acetyllysine':[],
 			'Omega-N-methylarginine':[],'Dimethylated arginine':[],'Symmetric dimethylarginine':[],'Asymmetric dimethylarginine':[],
