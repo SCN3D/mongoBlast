@@ -10,7 +10,7 @@ import Select from 'react-select';
 import _ from 'underscore';
 import './slider.css';
 
-
+//定义blast的多项选择，当前版本没有使用
 const options = [
   { label: 'Phosphotyrosine', value: "\"Phosphotyrosine\"" },
   { label: 'Phosphoserine', value: "\"Phosphoserine\"" },
@@ -44,51 +44,28 @@ class Output extends React.Component {
       currentSeq: '',
       blastOptions: [],
       blastRes: [],
-      blasting: false,
-      visible : false
+      blasting: false
     }
   }
-/*  handleSelect = blastOptions => {
-    this.setState({ blastOptions: blastOptions });
-    console.log(`Option selected:`, blastOptions);
-  }*/
-  handle3D = () => {
-    var fs = require( 'fs' );
-    var out = '';
-    let resi = "";
+  
+  handle3Dbutton = (event) => {
     let seq = this.state.currentSeq.split("\n")[1];
     let position = Object.keys(this.props.results[0]).join("%2C");
-    let url = "https://g2s.genomenexus.org/api/alignments/residueMapping?sequence="+seq+"&positionList="+position;
-    function parsePosition(value, index, array){
-      resi = resi + value.pdbPosition + ", ";
-    }
-    var disurl = '';
-    var selection = '';
-    $.getJSON(url, function(data) {
-      data[0].residueMapping.forEach(parsePosition);
-      resi = resi.replace(/,\s*$/, "");
-      let chain = data[0].chain;
-      selection = resi+":"+chain;
-      let pdb = data[0].pdbId;
-      disurl = "rcsb://"+pdb;
-      let obj = {
-        url: disurl,
-        selection: selection
-      };
-      out = "http://18.223.55.81:5000/display3d?url="+obj.url+"&sele="+obj.selection;
-      window.open(out);
-    });
-   
+    let out = "http://18.223.55.81:5000/3dtable?seq="+seq+"&pos="+position;
+    window.open(out);
   }
+
+  //在前端生成压缩包并下载
   handleDownload = () => {
     let zip = new JSZip();
     zip.file('input.fasta', this.props.originalInput);
     zip.file('output.txt', this.props.originalResults);
     zip.generateAsync({type: 'blob'}).then( content => {
-      saveAs(content, 'sequence.zip');
+      saveAs(content, `sequence.zip`);
     });
   }
 
+  //调用blast
   handleBlast = () => {
   	let currentSeq = this.state.currentSeq;
   	if(this.state.blasting === true){
@@ -100,15 +77,6 @@ class Output extends React.Component {
       });
       return;
   	}
-/*    if(this.state.blastOptions.length == 0){
-      swal({
-        text: "Please select at least one ptm!",
-        icon: "info",
-        button: "Got it!",
-        timer: 3000
-      });
-      return;
-    }*/
 
     this.setState({
     	blasting: true
@@ -126,7 +94,7 @@ class Output extends React.Component {
         	if(currentSeq !== this.state.currentSeq) return;
           if(data){
 
-          	/* set blast result */
+          	//处理得到的blast结果，以便react在不同位置设置不同颜色
             let res = data[0].split('\n');
             res.shift();
             res = res.map(e => {
@@ -180,12 +148,14 @@ class Output extends React.Component {
     )    
   }
 
+  //改变滑块值
   changeValue = () => {
     this.setState({
       curValue: this.sliderRef.getValue()
     });
   };
 
+  //前翻页
   pageBack = () => {
     if(this.state.current === 1) return;
     this.setState({
@@ -193,6 +163,7 @@ class Output extends React.Component {
     })
   }
 
+  //后翻页
   pageForward = () => {
     if(this.state.current === this.props.input.length) return;
     this.setState({
@@ -200,6 +171,7 @@ class Output extends React.Component {
     })
   }
 
+  //输入页码
   changePage = e => {
     let pageNumber = Number(e.target.value);
     if(pageNumber > 1 && pageNumber <= this.props.input.length){
@@ -210,17 +182,18 @@ class Output extends React.Component {
 
   };
 
+  //判断是否需要更新组件，避免不必要的刷新以提高性能。
   shouldComponentUpdate(nextProps, nextState) {
+
+    //不显示output时不刷新组件
     if(this.props.showOutput === false && nextProps.showOutput === false){
-      console.log("no");
       return false;
     }
+    //props和state没有变化时不刷新组件
     if(_.isEqual(this.props, nextProps) && _.isEqual(this.state, nextState)){
-      console.log(nextProps)
-      console.log(this.props)
-      console.log("no");
       return false;
     }
+
     //reset page number to 1 when start a new job
     if(nextProps.title.length <= 0){
     	if(this.state.currentSeq !== ''){
@@ -237,7 +210,7 @@ class Output extends React.Component {
         current: 1,
       })
     }
-    console.log("yes");
+    //其他情况更新组件
     return true;
   }
 
@@ -269,7 +242,7 @@ class Output extends React.Component {
 /*    let { blastOptions } = this.state.blastOptions;*/
     let blastRes = this.state.blastRes;
 
-    //Received output
+    //得到输出和loading时渲染不同的html
     if(this.props.title.length > 0){
       items = (
           <div key = {index} className = {style.item}>
@@ -319,14 +292,14 @@ class Output extends React.Component {
                 <button className = {style.download} onClick = {this.handleDownload}>Download</button>
               </div>
               <div className = {style.option}>
-                <button className = {style.download} onClick = {this.handle3D}>3D</button>
+                <button className = {style.download} onClick = {this.handle3Dbutton}>3D</button>
               </div>
             </div>           
           </div>
       )
     }
 
-    //Haven't received output yet
+
     else if(!this.state.blasting){
       items = (
         <div className = {style.loading}>
