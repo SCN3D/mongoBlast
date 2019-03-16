@@ -1,21 +1,28 @@
-# mongoBlast
-OS: Ubuntu, 18.04.1 LTS  
-Python: Python 2.7.15  
-Mongodb: v3.2.21  
+# mongoBlast  
+OS: Ubuntu 16.04.5 LTS  
+Python: Python 2.7.12  
+Mongodb: v3.2.22  
 
 Install MongoDB and Blast:  
-1.sudo apt install mongodb-server-core  
-2.cd /  
-3.sudo mkdir -p data/db  
-4.sudo chmod 777 /data/db  
-5.sudo apt install blast2=2.7.1+
-or wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/ncbi-blast-2.7.1+-x64-linux.tar.gz  
-tar zxvpf ncbi-blast-2.7.1+-x64-linux.tar.gz  
-export PATH=$PATH:$HOME/ncbi-blast-2.7.1+/bin:$PATH  
+1.sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv D68FA50FEA312927  
+2.echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list  
+3.sudo apt-get update  
+4.sudo apt-get install -y mongodb-org  
+5.cd /  
+6.sudo mkdir -p data/db  
+7.sudo chmod 777 /data/db  
+8.wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/ncbi-blast-2.7.1+-x64-linux.tar.gz  
+9.tar zxvpf ncbi-blast-2.7.1+-x64-linux.tar.gz  
+10.export PATH=$PATH:$HOME/ncbi-blast-2.7.1+/bin:$PATH  
 
 Crontab:  
 1.pip uninstall crontab  
 2.pip install python-crontab  
+
+required modules:  
+pip install feedparser  
+pip install pymongo  
+pip install configparser  
 
 Run:  
 1.mongod  
