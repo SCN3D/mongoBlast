@@ -11,6 +11,7 @@ Install MongoDB and Blast:
 5.cd /  
 6.sudo mkdir -p data/db  
 7.sudo chmod 777 /data/db  
+8.cd ~  
 8.wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/ncbi-blast-2.7.1+-x64-linux.tar.gz  
 9.tar zxvpf ncbi-blast-2.7.1+-x64-linux.tar.gz  
 10.export PATH=$PATH:$HOME/ncbi-blast-2.7.1+/bin:$PATH  
