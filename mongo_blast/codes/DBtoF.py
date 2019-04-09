@@ -15,7 +15,7 @@ import functions
 	
 #if there is ft add 1 after id, format: fasta
 def prepareData(id,seq):
-	out_data = '> '+id+'\n'+seq+'\n'
+	out_data = '>sp|'+id+'\n'+seq+'\n'
 	return out_data
 
 #convert uniprot DB to fasta file
