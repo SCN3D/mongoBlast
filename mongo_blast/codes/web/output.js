@@ -4,16 +4,16 @@ import $ from 'jquery';
 import saveAs from 'file-saver';
 import JSZip from 'jszip';
 import Element from '../../children/element/element';
-import style from './output.css';
+import style from './output.module.css';
 import Slider from 'react-bootstrap-slider';
 import Select from 'react-select';
 import _ from 'underscore';
-import './slider.css';
+import './slider.module.css';
 
 //定义blast的多项选择，当前版本没有使用
 const options = [
-  { label: 'Phosphotyrosine', value: "\"Phosphotyrosine\"" },
   { label: 'Phosphoserine', value: "\"Phosphoserine\"" },
+  { label: 'Phosphotyrosine', value: "\"Phosphotyrosine\"" },
   { label: 'Dimethylated arginine', value: "\"Dimethylated arginine\"" },
   { label: 'Symmetric dimethylarginine', value: "\"Symmetric dimethylarginine\"" },
   { label: 'Asymmetric dimethylarginine', value: "\"Asymmetric dimethylarginine\"" },
@@ -42,16 +42,18 @@ class Output extends React.Component {
       curValue: 70,
       current: 1,
       currentSeq: '',
-      blastOptions: [],
+      blastOptions: '',
       blastRes: [],
       blasting: false
     }
   }
-  
+
+
+  // handle 3d table
   handle3Dbutton = (event) => {
     let seq = this.state.currentSeq.split("\n")[1];
     let position = Object.keys(this.props.results[0]).join("%2C");
-    let out = "http://18.223.55.81:5000/3dtable?seq="+seq+"&pos="+position;
+    let out = "http://18.223.55.81:5000/3dtable?seq="+seq+"&pos="+position; //replace http://18.223.55.81:5000 with local host
     window.open(out);
   }
 
@@ -64,22 +66,37 @@ class Output extends React.Component {
       saveAs(content, `sequence.zip`);
     });
   }
-
+   
+  handleSelect = blastOptions => {
+  this.setState({blastOptions:blastOptions});
+  console.log('Option selected:',blastOptions);
+  }
   //调用blast
   handleBlast = () => {
+    //console.log('##############model##################'+this.props.model) //ok
   	let currentSeq = this.state.currentSeq;
   	if(this.state.blasting === true){
       swal({
         text: "Please wait for blast processing!",
         icon: "info",
         button: "Got it!",
-        timer: 3000
+        timer: 20000
       });
       return;
   	}
-
+    
+    if(this.state.blastOptions ==''){
+     swal({
+      text: "Please select at least one PTM annotation!",
+      icon: "info",
+      button: "Got it!",
+      timer:20000
+     })
+     return;
+    }
+    if(this.state.blastOptions !=''){
     this.setState({
-    	blasting: true
+    blasting: true
     })
     $.ajax(
       {
@@ -88,7 +105,8 @@ class Output extends React.Component {
         data: {
           'userId': localStorage.getItem("userId"),
           'seq': this.state.currentSeq,
-          'blastOptions': this.props.model
+          //'blastOptions': this.props.model //if used the selected model as blast options
+          'blastOptions': this.state.blastOptions
         },
         success: data =>{
         	if(currentSeq !== this.state.currentSeq) return;
@@ -133,19 +151,21 @@ class Output extends React.Component {
         	this.setState({
         		blasting: false
         	})
-          swal({
+            swal({
           	title: "error",
           	text: "Please try again later!",
           	icon: "info",
           	button: "Got it!",
-          	timer: 3000
+          	timer: 20000
         	});
                   console.log(XMLHttpRequest.status);
                   console.log(XMLHttpRequest.readyState);
                   console.log(textStatus);
+            
             }
       }
-    )    
+    )
+    }    
   }
 
   //改变滑块值
@@ -239,7 +259,7 @@ class Output extends React.Component {
     let index = this.state.current - 1;
     let e = input[index] ||[]; //In case of the input hasn't been received
     let items;
-/*    let { blastOptions } = this.state.blastOptions;*/
+    let { blastOptions } = this.state.blastOptions; //for option ptm
     let blastRes = this.state.blastRes;
 
     //得到输出和loading时渲染不同的html
@@ -286,7 +306,7 @@ class Output extends React.Component {
               <h3>Advanced Options</h3>
               <div className = {style.option}>
                 <button onClick = {this.handleBlast}>Blast</button>
-                <Select className = {style.select} options={options} isMulti closeMenuOnSelect={false} onChange = {this.handleSelect} />
+                <Select className = {style.select} options={options} closeMenuOnSelect={false} onChange = {this.handleSelect} />
               </div>
               <div className = {style.option}>
                 <button className = {style.download} onClick = {this.handleDownload}>Download</button>
@@ -350,3 +370,5 @@ class Output extends React.Component {
 
 
 export default Output
+
+//<Select className = {style.select} options={options} isMulti closeMenuOnSelect={false} onChange = {this.handleSelect} />
