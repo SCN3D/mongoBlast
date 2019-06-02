@@ -20,9 +20,9 @@
     document.addEventListener("DOMContentLoaded", function () {
       var stage = new NGL.Stage("viewport");
         stage.loadFile(url).then( function( o ){  
-    	    o.addRepresentation( "ball+stick", { color: "red", sele: selection, radius: 0.02 } );
+    	    o.addRepresentation( "point", { color: "red", sele: selection, radius: 0.02 } );
           o.addRepresentation( "cartoon",  {colorScheme: "residueindex", opacity: 0.7});
-          o.addRepresentation( "label",  { sele: selection, labelType: "atomname", color: "green"});
+          o.addRepresentation( "label",  { sele: selection, labelType: "residue", color: "green"});
     	    o.autoView();
     	});
     });

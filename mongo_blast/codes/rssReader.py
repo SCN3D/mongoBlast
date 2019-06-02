@@ -8,6 +8,7 @@ import sys
 import configparser
 from datetime import datetime as dt
 import os
+import subprocess
 
 # read rss feed from uniprot, update database if there is a new update
 def main():
@@ -33,6 +34,7 @@ def main():
 			os.system('python '+dir_path+'/tableGenerator.py')
 			os.system('python '+dir_path+'/DBtoF.py')
 			os.system('python '+dir_path+'/annotations.py')
+			subprocess.call('makeblastdb -in background_seqs.fasta -dbtype prot -parse_seqids -out mydb',shell=True)
 			functions.Config_edit(new_date)
 		elif train == 1:
 			print("optional?")
